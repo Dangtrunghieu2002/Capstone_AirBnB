@@ -1,10 +1,10 @@
+import { useSelector } from "react-redux"
+import useRoutesCustome from "./hooks/useRoutesCustome"
 
 
 function App() {
-  
-  return (
-  <div className="text-red-500">Đây là template ReactJS phiên bản 18</div>
-  )
+  const routes = useRoutesCustome()
+  return routes
 }
 
 export default App
