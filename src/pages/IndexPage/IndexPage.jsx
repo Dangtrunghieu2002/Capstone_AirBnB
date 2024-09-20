@@ -1,10 +1,21 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { formatDateString } from "../../utils/utils";
 import Signature from "../../components/NavComponent/Signature";
 import Landmark from "../../components/NavComponent/Landmark";
 import Design from "../../components/NavComponent/Design";
+import { getLocationApi } from "../../redux/SliceUser/viTriSlice";
+import SmallCard from "../../components/Card/IndexPageCard/SmallCard";
+import MediumCard from "../../components/Card/IndexPageCard/MediumCard";
+import Pool from "../../components/NavComponent/Pool";
+import Room from "../../components/NavComponent/Room";
+import Play from "../../components/NavComponent/Play";
+import Golf from "../../components/NavComponent/Golf";
+import Kitchen from "../../components/NavComponent/Kitchen";
+import North from "../../components/NavComponent/North";
 const IndexPage = () => {
+  const dispatch = useDispatch();
+  const { locationApi } = useSelector((state) => state.viTriSlice);
   const [isActive, setIsActive] = useState(0);
   const data = [
     {
@@ -192,6 +203,12 @@ const IndexPage = () => {
       desc: "Dammuso",
     },
   ];
+  const cardData = [
+    { img: "https://links.papareact.com/2io", title: "Trang trại và thiên nhiên" },
+    { img: "https://links.papareact.com/q7j", title: "Chỗ ở độc đáo" },
+    { img: "https://links.papareact.com/s03", title: "Toàn bộ nhà" },
+    { img: "https://links.papareact.com/8ix", title: "Cho phép mang theo thú cưng" },
+  ];
   const containerRef = useRef(null);
   const itemWidth = 100; // Width of each item including padding and margin
   const itemsToScroll = 7; // Number of items to scroll each time
@@ -212,7 +229,9 @@ const IndexPage = () => {
     window.addEventListener("resize", checkScrollPosition);
     return () => window.removeEventListener("resize", checkScrollPosition);
   }, [isAtStart, isAtEnd]);
-
+  useEffect(() => {
+    dispatch(getLocationApi());
+  }, []);
   const scrollLeft = () => {
     if (containerRef.current) {
       containerRef.current.scrollBy({
@@ -231,11 +250,17 @@ const IndexPage = () => {
     if (isActive == 0) return <Signature />;
     if (isActive == 1) return <Landmark />;
     if (isActive == 2) return <Design />;
+    if(isActive == 3) return <Pool/>
+    if(isActive == 4) return <Room/>
+    if(isActive == 5) return <Play/>
+    if(isActive == 6) return <Golf/>
+    if(isActive == 7) return <Kitchen/>
+    else return <North/>
   };
   return (
     <>
       <div className="mt-4 px-10 2xl:px-20">
-        <div className="relative">
+        <section className="relative">
           {
             <button
               onClick={scrollLeft}
@@ -261,7 +286,7 @@ const IndexPage = () => {
           <div className="">
             <div
               ref={containerRef}
-              className="flex items-center gap-10 overflow-hidden scrollbar-hide w-[99%]"
+              className="flex items-center gap-5 lg:gap-10 overflow-hidden scrollbar-hide w-[99%]"
             >
               {data.map((item, index) => (
                 <div
@@ -269,10 +294,10 @@ const IndexPage = () => {
                     setIsActive(index);
                   }}
                   key={index}
-                  className={`cursor-pointer opacity-70 hover:opacity-100 flex-shrink-0 flex flex-col gap-[7px] items-center justify-center border-b-2 ${
+                  className={`cursor-pointer flex-shrink-0 flex flex-col gap-[7px] items-center justify-center border-b-2 ${
                     isActive == index
                       ? "border-black"
-                      : "border-white hover:border-gray-200"
+                      : "border-white hover:border-gray-200 opacity-70 hover:opacity-100 "
                   } py-3`}
                 >
                   <div className="max-h-[48px]">
@@ -287,7 +312,7 @@ const IndexPage = () => {
           {
             <button
               onClick={scrollRight}
-              className="absolute right-[-20px] top-1/2 transform -translate-y-1/2 bg-[#FFFFFF] p-[9px] border_nav rounded-full"
+              className="absolute right-[-40px] lg:right-[-20px] top-1/2 transform -translate-y-1/2 bg-[#FFFFFF] p-[9px] border_nav rounded-full"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -306,10 +331,33 @@ const IndexPage = () => {
               </svg>
             </button>
           }
-        </div>
-        <div className="mt-5">
-          {showActive()}
-        </div>
+        </section>
+        <section className="mt-5">{showActive()}</section>
+        <section className="mt-10">
+          <h2 className="text-3xl font-semibold mb-5">
+            Khám phá điểm đến gần đây
+          </h2>
+          <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+            {locationApi.map((item, index) => {
+              const { hinhAnh, tinhThanh, tenViTri } = item;
+              return (
+                <SmallCard
+                  hinhAnh={hinhAnh}
+                  tinhThanh={tinhThanh}
+                  tenViTri={tenViTri}
+                />
+              );
+            })}
+          </div>
+        </section>
+        <section className="mt-10">
+          <h2 className="text-3xl font-semibold">Ở bất cứ đâu</h2>
+          <div className="flex space-x-3 overflow-scroll scrollbar-hide justify-between">
+            {cardData.map((item,index) => {
+              return <MediumCard  key={item.img} img={item.img} title={item.title}/>
+            })}
+          </div>
+        </section>
       </div>
     </>
   );

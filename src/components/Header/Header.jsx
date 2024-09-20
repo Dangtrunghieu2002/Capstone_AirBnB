@@ -17,6 +17,7 @@ import {
 import { formatDateString } from "../../utils/utils";
 import { useSpring, animated } from "@react-spring/web";
 import { throttle } from "lodash";
+import { transpile } from "typescript";
 const Header = (props) => {
   const dispatch = useDispatch();
   const { guest, childGuest, babyGuest, startDate, endDate } = useSelector(
@@ -28,6 +29,7 @@ const Header = (props) => {
   const [inputValue, setInputValue] = useState("");
   const [isScrollingDown, setIsScrollingDown] = useState(false);
   const [scrollOverride, setScrollOverride] = useState(false);
+  const [responsiveActive, setResponsiveActive] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const inputRef = useRef(null);
   const pickerRef = useRef(null);
@@ -147,7 +149,7 @@ const Header = (props) => {
     // Reset the override after a delay or based on specific logic // Example: reset after 5 seconds
   };
   const getDropdownContent = () => {
-    if (inputValue === "") {
+    if (inputValue === "" && responsiveActive == false) {
       return (
         <div className="p-7 flex flex-col justify-center items-center">
           <h3 className="text-sm font-semibold">Tìm kiếm theo khu vực</h3>
@@ -155,6 +157,93 @@ const Header = (props) => {
             {dataLocation.map((item, index) => {
               return <HeaderCard img={item.img} desc={item.desc} />;
             })}
+          </div>
+        </div>
+      );
+    } else if (inputValue === "" && responsiveActive) {
+      return (
+        <div className="">
+          <div className="p-4 space-y-5">
+            <div className="flex items-center gap-4">
+              <div className=" p-3 rounded-xl bg-[#DDDDDD]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 32 32"
+                  aria-hidden="true"
+                  role="presentation"
+                  focusable="false"
+                  style={{
+                    display: "block",
+                    height: 22,
+                    width: 22,
+                    fill: "currentcolor",
+                  }}
+                >
+                  <path d="M16 0a12 12 0 0 1 12 12c0 6.34-3.81 12.75-11.35 19.26l-.65.56-1.08-.93C7.67 24.5 4 18.22 4 12 4 5.42 9.4 0 16 0zm0 2C10.5 2 6 6.53 6 12c0 5.44 3.25 11.12 9.83 17.02l.17.15.58-.52C22.75 23 25.87 17.55 26 12.33V12A10 10 0 0 0 16 2zm0 5a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
+                </svg>
+              </div>
+              <h3>Paris</h3>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className=" p-3 rounded-xl bg-[#DDDDDD]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 32 32"
+                  aria-hidden="true"
+                  role="presentation"
+                  focusable="false"
+                  style={{
+                    display: "block",
+                    height: 22,
+                    width: 22,
+                    fill: "currentcolor",
+                  }}
+                >
+                  <path d="M16 0a12 12 0 0 1 12 12c0 6.34-3.81 12.75-11.35 19.26l-.65.56-1.08-.93C7.67 24.5 4 18.22 4 12 4 5.42 9.4 0 16 0zm0 2C10.5 2 6 6.53 6 12c0 5.44 3.25 11.12 9.83 17.02l.17.15.58-.52C22.75 23 25.87 17.55 26 12.33V12A10 10 0 0 0 16 2zm0 5a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
+                </svg>
+              </div>
+              <h3>Paris-Charles de Gaulle Airport, Roissy-en-France</h3>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className=" p-3 rounded-xl bg-[#DDDDDD]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 32 32"
+                  aria-hidden="true"
+                  role="presentation"
+                  focusable="false"
+                  style={{
+                    display: "block",
+                    height: 22,
+                    width: 22,
+                    fill: "currentcolor",
+                  }}
+                >
+                  <path d="M16 0a12 12 0 0 1 12 12c0 6.34-3.81 12.75-11.35 19.26l-.65.56-1.08-.93C7.67 24.5 4 18.22 4 12 4 5.42 9.4 0 16 0zm0 2C10.5 2 6 6.53 6 12c0 5.44 3.25 11.12 9.83 17.02l.17.15.58-.52C22.75 23 25.87 17.55 26 12.33V12A10 10 0 0 0 16 2zm0 5a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
+                </svg>
+              </div>
+              <h3>Eiffel Tower, Paris</h3>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className=" p-3 rounded-xl bg-[#DDDDDD]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 32 32"
+                  aria-hidden="true"
+                  role="presentation"
+                  focusable="false"
+                  style={{
+                    display: "block",
+                    height: 22,
+                    width: 22,
+                    fill: "currentcolor",
+                  }}
+                >
+                  <path d="M16 0a12 12 0 0 1 12 12c0 6.34-3.81 12.75-11.35 19.26l-.65.56-1.08-.93C7.67 24.5 4 18.22 4 12 4 5.42 9.4 0 16 0zm0 2C10.5 2 6 6.53 6 12c0 5.44 3.25 11.12 9.83 17.02l.17.15.58-.52C22.75 23 25.87 17.55 26 12.33V12A10 10 0 0 0 16 2zm0 5a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
+                </svg>
+              </div>
+              <h3>Paris 13, Paris</h3>
+            </div>
           </div>
         </div>
       );
@@ -192,12 +281,16 @@ const Header = (props) => {
   const springProps = useSpring({
     height: isScrollingDown
       ? windowWidth < 1024
-        ? "220px"
+        ? "80px"
         : "80px"
       : windowWidth < 1024
-      ? "220px"
+      ? "240px"
       : "167px",
-    config: { tension: 200, friction: 20, duration: 200 }, // Điều chỉnh tension và friction để làm cho hoạt ảnh mượt mà hơn
+    config: {
+      tension: 200,
+      friction: 20,
+      duration: windowWidth < 1024 ? 300 : 200,
+    }, // Điều chỉnh tension và friction để làm cho hoạt ảnh mượt mà hơn
   });
   const springProps1 = useSpring({
     opacity: isScrollingDown ? 0 : 1,
@@ -205,14 +298,19 @@ const Header = (props) => {
       ? "scale(0.4990243902439024,0.875) translateY(-75px) translateX(-30px)"
       : "scale(1,1) translateY(0px) translateX(0px)",
     visibility: isScrollingDown ? "hidden" : "visible",
-    config: { duration: 200 },
+    config: { duration: windowWidth < 1024 ? 300 : 200 },
   });
   const springProps2 = useSpring({
     transform: isScrollingDown
       ? "scale(1,1) translateY(0px) translateX(0px)"
       : "scale(2.4390243902439024,1.375) translateY(58px) translateX(-40px)",
     visibility: isScrollingDown ? "visible" : "hidden",
-    config: { duration: 200 },
+    config: { duration: windowWidth < 1024 ? 300 : 200 },
+  });
+  const springProps3 = useSpring({
+    opacity: responsiveActive ? 1 : 0,
+    transform: responsiveActive ? " translateY(0px)" : "translateY(-100px)",
+    config: { duration: 300 },
   });
   const handleActive = (active = true) => {
     setIsActive(active);
@@ -623,7 +721,7 @@ const Header = (props) => {
           >
             Thêm ngày
           </div>
-          {(isFocused === 2) && (
+          {isFocused === 2 && (
             <div
               ref={pickerRef}
               className="absolute left-[-350px] lg:left-[-280px] top-[70px] mt-2  w-[650px] lg:w-[850px] bg-white border border-gray-200 rounded-3xl shadow-lg z-10"
@@ -863,12 +961,154 @@ const Header = (props) => {
       </div>
     );
   };
+  if (windowWidth > 768 && responsiveActive) setResponsiveActive(false);
   return (
     <>
       {scrollOverride && <div className="overlay"></div>}
+      {responsiveActive && (
+        <div className="responsiveOverLay px-5 relative">
+          <animated.div style={{ ...springProps3 }} className="">
+            <div className="mt-10 flex items-center justify-center relative">
+              <button
+                onClick={() => setResponsiveActive(false)}
+                className="absolute top-[-5px] left-0 p-3 rounded-full border bg-white border-gray-400"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 32 32"
+                  aria-hidden="true"
+                  role="presentation"
+                  focusable="false"
+                  style={{
+                    display: "block",
+                    fill: "none",
+                    height: 12,
+                    width: 12,
+                    stroke: "currentcolor",
+                    strokeWidth: 4,
+                    overflow: "visible",
+                  }}
+                >
+                  <path d="m6 6 20 20M26 6 6 26" />
+                </svg>
+              </button>
+              <div className="flex items-center gap-7 text-lg font-medium">
+                <h3 className="border-b-2 border-black pb-1">Chỗ ở</h3>
+                <h3 className="pb-1 border-b-2 border-[#F7F7F7]">
+                  Trải nghiệm
+                </h3>
+              </div>
+            </div>
+            <div className="p-5 box-shadow-header rounded-3xl mt-3 bg-[#FFFFFF]">
+              <h3 className="text-2xl font-bold">Bạn sẽ đi đâu?</h3>
+              <form className="mt-5">
+                <div className="py-4 px-5 border-gray-400 border rounded-lg w-full flex items-center gap-3 relative">
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 32 32"
+                      aria-hidden="true"
+                      role="presentation"
+                      focusable="false"
+                      style={{
+                        display: "block",
+                        fill: "none",
+                        height: 16,
+                        width: 16,
+                        stroke: "currentcolor",
+                        strokeWidth: 4,
+                        overflow: "visible",
+                      }}
+                    >
+                      <path
+                        fill="none"
+                        d="M13 24a11 11 0 1 0 0-22 11 11 0 0 0 0 22zm8-3 9 9"
+                      />
+                    </svg>
+                  </div>
+                  <input
+                    type="text"
+                    onFocus={handleFocusInput}
+                    onChange={handleChange}
+                    value={inputValue}
+                    name=""
+                    id=""
+                    placeholder="Tìm kiếm điểm đến"
+                    className="focus:outline-none text-[15px] w-full"
+                  />
+                  {isOpen && (
+                    <div className="absolute left-[0px] top-[60px] mt-2 w-full bg-white border border-gray-200 rounded-3xl shadow-lg z-10">
+                      {getDropdownContent()}
+                    </div>
+                  )}
+                </div>
+              </form>
+              <div className="flex items-center gap-5 mt-5 overflow-scroll scrollbar-hide">
+                {dataLocation.map((item, index) => {
+                  return (
+                    <div className="flex-shrink-0">
+                      <div className="w-[130px]">
+                        <img
+                          src={item.img}
+                          alt=""
+                          className="w-full rounded-xl border object-cover"
+                        />
+                      </div>
+                      <h3 className="text-sm mt-2">{item.desc}</h3>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="p-5 box-shadow-header rounded-2xl mt-3 bg-[#FFFFFF]">
+              <div className="flex items-center justify-between">
+                <h3 className="font-medium text-gray-500 text-[15px]">
+                  Thời gian
+                </h3>
+                <h3 className="font-medium text-black text-[15px]">
+                  Thêm ngày
+                </h3>
+              </div>
+            </div>
+            <div className="p-5 box-shadow-header rounded-2xl mt-3 bg-[#FFFFFF]">
+              <div className="flex items-center justify-between">
+                <h3 className="font-medium text-gray-500 text-[15px]">Khách</h3>
+                <h3 className="font-medium text-black text-[15px]">
+                  Thêm khách
+                </h3>
+              </div>
+            </div>
+          </animated.div>
+          <div className="absolute bottom-0 left-0 w-full py-5 mx-5">
+            <div className="flex justify-between items-center">
+              <h3 className="text-lg font-semibold underline">Xóa tất cả</h3>
+              <button className="text-white py-3 px-7 rounded-lg bg-[#FE375B] flex items-center gap-3">
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 32 32"
+                    aria-hidden="true"
+                    role="presentation"
+                    focusable="false"
+                    style={{
+                      display: "block",
+                      height: 16,
+                      width: 16,
+                      fill: "currentcolor",
+                    }}
+                  >
+                    <path d="M13 0a13 13 0 0 1 10.5 20.67l7.91 7.92-2.82 2.82-7.92-7.91A12.94 12.94 0 0 1 13 26a13 13 0 1 1 0-26zm0 4a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-medium">Tìm kiếm</h3>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <animated.div
         ref={containerRef}
-        className={`sticky top-0 right-0 bottom-0 z-[100] box-shadow-header2 bg-white`}
+        className={`hidden md:block sticky top-0 right-0 bottom-0 z-[100] box-shadow-header2 bg-white`}
         style={{ ...springProps }}
       >
         <header className="h-[80px]">
@@ -905,27 +1145,29 @@ const Header = (props) => {
                 </svg>
               </div>
             </div>
-            <div className="px-[24px]">
+            <div className="pl-[20px]">
               <animated.div
                 style={{ ...springProps2 }}
-                className={`1 ${
+                className={`1 w-[90%] lg:w-full ${
                   isScrollingDown ? "hidden-opacity" : ""
                 } small-div`}
               >
                 <div
                   onClick={handleClick}
-                  className="cursor-pointer py-[6px] pl-6 pr-2 rounded-full xl:translate-x-[100px] border flex items-center gap-3 lg:gap-5 flex-1 box-shadow-header"
+                  className="cursor-pointer py-[6px] pl-6 pr-2 rounded-full xl:translate-x-[100px] border flex items-center gap-3 lg:gap-5 flex-1 box-shadow-header w-[90%] lg:w-full"
                 >
-                  <div className="text-[14px] font-medium flex-shrink-0">
-                    <h3 className="">Địa điểm bất kỳ</h3>
+                  <div className="text-[14px] w-[30%] font-medium">
+                    <h3 className="overflow-hidden text-ellipsis whitespace-nowrap">
+                      Địa điểm bất kỳ
+                    </h3>
                   </div>
-                  <div className="w-[1px] h-[25px] bg-gray-300 hidden lg:block"></div>
-                  <h3 className="text-[14px] font-medium flex-shrink-0 hidden lg:block">
+                  <div className="w-[1px] h-[25px] bg-gray-300"></div>
+                  <h3 className="text-[14px] w-[30%] font-medium overflow-hidden text-ellipsis whitespace-nowrap">
                     Tuần bất kỳ
                   </h3>
                   <div className="w-[1px] h-[25px] bg-gray-300"></div>
-                  <div className="flex items-center gap-3">
-                    <p className="text-[14px] opacity-70 flex-shrink-0">
+                  <div className="flex items-center gap-3 w-[40%]">
+                    <p className="text-[14px] opacity-70 overflow-hidden text-ellipsis whitespace-nowrap">
                       Thêm khách
                     </p>
                     <div className="p-3 bg-red-500 rounded-full text-white">
@@ -987,7 +1229,7 @@ const Header = (props) => {
                 </form>
               </animated.div>
             </div>
-            <div className="flex items-center gap-4 lg:gap-5">
+            <div className="flex items-center gap-4 lg:gap-5 flex-shrink-0 translate-x-[-40px] lg:translate-x-0">
               <h3 className="font-medium text-[14px]">
                 Cho thuê chỗ ở qua Airbnb
               </h3>
@@ -1052,6 +1294,42 @@ const Header = (props) => {
           </div>
         </header>
       </animated.div>
+      <div className="md:hidden mx-7 mt-5">
+        <div
+          onClick={() => setResponsiveActive(true)}
+          className="py-2 px-5 rounded-full box-shadow-header"
+        >
+          <div className="flex items-center gap-5">
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 32 32"
+                aria-hidden="true"
+                role="presentation"
+                focusable="false"
+                style={{
+                  display: "block",
+                  height: 20,
+                  width: 20,
+                  fill: "currentcolor",
+                }}
+              >
+                <path d="M13 0a13 13 0 0 1 10.5 20.67l7.91 7.92-2.82 2.82-7.92-7.91A12.94 12.94 0 0 1 13 26a13 13 0 1 1 0-26zm0 4a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" />
+              </svg>
+            </div>
+            <div className="space-y-[-3px]">
+              <h3 className="text-[15px] font-medium">Bạn sẽ đi đâu?</h3>
+              <div className="flex items-center gap-1 text-[12px] text-gray-500">
+                <h3>Địa điểm bất kỳ</h3>
+                <span>•</span>
+                <h3>tuần bất kỳ</h3>
+                <span>•</span>
+                <h3>Thêm khách</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

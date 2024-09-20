@@ -62,6 +62,15 @@
   position: fixed;
   z-index: 99;
 }
+.responsiveOverLay{
+  background-color: #F7F7F7;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+  position: fixed;
+  z-index: 99;
+}
 .small-div {
   transform-origin: 50% 50%; /* Điểm gốc của các phép biến đổi */
 }
@@ -71,4 +80,23 @@
 
 .hidden-opacity2 {
   animation: opacityAnimation2 200ms ease-in-out;
+}
+
+footer {
+  .footer1 {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 4fr) minmax(0, 1fr);
+    grid-gap: 24px;
+    .footer1-content{
+      grid-column-start: 2;
+    }
+  }
+}
+
+@media (max-width: 1580px) {
+  footer{
+    .footer1{
+      display: block;
+    }
+  }
 }
