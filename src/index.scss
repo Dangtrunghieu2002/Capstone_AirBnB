@@ -1,3 +1,102 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: Airbnb;
+  src: url("../public/font/AirbnbCerealVF_W_Wght.2d9d32865ef1262644c455b3ead871e9.woff2");
+}
+
+* {
+  font-family: Airbnb;
+}
+
+.box-shadow-header {
+  box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.08);
+}
+.box-shadow-header2 {
+  box-shadow: rgb(0 0 0/8%) 0 1px 0;
+}
+
+.hover-input {
+  &:hover input {
+    background: #e5e7eb;
+  }
+}
+
+@keyframes opacityAnimation {
+  0% {
+    opacity: 0.19049773755656108;
+  }
+  25% {
+    opacity: 0.23619909502262444;
+  }
+  50% {
+    opacity: 0.33619909502262444;
+  }
+  80% {
+    opacity: 0.49049773755656108;
+  }
+  100% {
+    opacity: 0.79049773755656108;
+  }
+}
+@keyframes opacityAnimation2 {
+  from {
+    opacity: 0.01;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+.border_nav {
+  border: 0.5px solid rgb(0 0 0 / 0.3);
+}
+.overlay {
+  background-color: rgb(0 0 0/25%);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+  position: fixed;
+  z-index: 99;
+}
+.responsiveOverLay{
+  background-color: #F7F7F7;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+  position: fixed;
+  z-index: 99;
+}
+.small-div {
+  transform-origin: 50% 50%; /* Điểm gốc của các phép biến đổi */
+}
+.hidden-opacity {
+  animation: opacityAnimation 200ms ease-in-out;
+}
+
+.hidden-opacity2 {
+  animation: opacityAnimation2 200ms ease-in-out;
+}
+
+footer {
+  .footer1 {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 4fr) minmax(0, 1fr);
+    grid-gap: 24px;
+    .footer1-content{
+      grid-column-start: 2;
+    }
+  }
+}
+
+@media (max-width: 1580px) {
+  footer{
+    .footer1{
+      display: block;
+    }
+  }
+}
