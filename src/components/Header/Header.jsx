@@ -17,7 +17,6 @@ import {
 import { formatDateString } from "../../utils/utils";
 import { useSpring, animated } from "@react-spring/web";
 import { throttle } from "lodash";
-import { transpile } from "typescript";
 const Header = (props) => {
   const dispatch = useDispatch();
   const { guest, childGuest, babyGuest, startDate, endDate } = useSelector(
