@@ -12,13 +12,13 @@ const AdminSideBar = () => {
           Quản lý người dùng
         </Link>
         <Link
-          to="/admin/location-information-management" // Sync with "/admin/location-information-management"
+          to="/admin/location-management" // Sync with "/admin/location-information-management"
           className="block py-2.5 px-4 text-gray-700 rounded hover:bg-gray-200 transition"
         >
           Quản lý thông tin vị trí
         </Link>
         <Link
-          to="/admin/room-information-management" // Sync with "/admin/room-information-management"
+          to="/admin/room-info-management" // Sync with "/admin/room-information-management"
           className="block py-2.5 px-4 text-gray-700 rounded hover:bg-gray-200 transition"
         >
           Quản lý thông tin phòng

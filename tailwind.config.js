@@ -6,7 +6,14 @@ export default {
       container: {
         center: true,
       },
+      fontFamily: {
+        airbnb: ['Airbnb', 'Arial', 'sans-serif'],
+      },
     },
   },
-  plugins: [require("tailwind-scrollbar-hide")],
+  plugins: [
+    require("tailwind-scrollbar-hide"),
+    require('@tailwindcss/forms'), // Optional additional plugin for form styling
+    require('@tailwindcss/typography'), // Optional additional plugin for typography
+  ],
 };

@@ -3,12 +3,11 @@ import { useRoutes } from 'react-router-dom';
 import UserTemplate from '../template/UserTemplate/UserTemplate';
 import IndexPage from '../pages/IndexPage/IndexPage';
 import AdminTemplate from '../template/AdminTemplate/AdminTemplate';
-import PageNotFound from '../components/PageNotFound/PageNotFound';
-import BookingManagementPage from '../pages/BookingManagementPage/BookingManagementPage';
-import UserManagePage from '../pages/UserManagePage/UserManagePage';
-import LocationManagementPage from '../pages/LocationManagementPage/LocationManagementPage';
-import RoomInfoManagementPage from '../pages/RoomInfoManagementPage/RoomInfoManagementPage';
-import { path } from '../common/path';
+import BookingManagePage from '../pages/BookingManagePage/BookingManagePage.jsx';
+import UserManagePage from '../pages/UserManagePage/UserManagePage.jsx';
+import LocationManagePage from '../pages/LocationManagePage/LocationManagePage.jsx';
+import RoomInfoManagePage from '../pages/RoomInfoManagePage/RoomInfoManagePage.jsx';
+import { path } from '../common/path/path.js';
 
 const useRoutesCustome = () => {
     const routes = useRoutes([
@@ -31,10 +30,9 @@ const useRoutesCustome = () => {
                     path: 'user-management',
                     element: <UserManagePage />,
                 },
-                { path: path.locationManage, element: <LocationManagementPage /> },
-                { path: path.roomInfoManage, element: <RoomInfoManagementPage /> },
-                { path: path.bookingManage, element: <BookingManagementPage /> },
-                { path: '*', element: <PageNotFound /> },
+                { path: path.locationManage, element: <LocationManagePage /> },
+                { path: path.roomInfoManage, element: <RoomInfoManagePage /> },
+                { path: path.bookingManage, element: <BookingManagePage /> },
             ],
         },
     ]);

@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 
 const ManagementTable = ({ columnMapping, fetchData, onEdit, onView }) => {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([]); // Ensure it's always an array
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // Track loading state
+  const [error, setError] = useState(null); // Track errors
 
   useEffect(() => {
     const loadData = async () => {
-      setIsLoading(true);
-      setError(null);
+      setIsLoading(true); // Start loading
+      setError(null); // Reset any previous error
       try {
         const response = await fetchData(currentPage, searchTerm);
-        setItems(Array.isArray(response.items) ? response.items : []);
+        console.log(response); // Check what the API returns
+        setItems(Array.isArray(response.items) ? response.items : []); // Ensure items is an array
         setTotalPages(response.totalPages || 1);
       } catch (err) {
         console.error('Error fetching data:', err);
         setError('Failed to load data');
-        setItems([]);
+        setItems([]); // Fallback to an empty array in case of error
       } finally {
-        setIsLoading(false);
+        setIsLoading(false); // Stop loading
       }
     };
 
@@ -31,21 +31,15 @@ const ManagementTable = ({ columnMapping, fetchData, onEdit, onView }) => {
 
   const handleSearch = () => {
     setCurrentPage(1);
-    fetchData(1, searchTerm); // Gọi lại hàm fetchData với trang 1 và từ khóa tìm kiếm mới
-  };
-
-  const handlePageChange = (newPage) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      setCurrentPage(newPage);
-    }
+    fetchData(currentPage, searchTerm);
   };
 
   if (isLoading) {
-    return <p>Loading data...</p>;
+    return <p>Loading data...</p>; // Show a loading message while fetching
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p>{error}</p>; // Show error message if fetching fails
   }
 
   return (
@@ -81,7 +75,7 @@ const ManagementTable = ({ columnMapping, fetchData, onEdit, onView }) => {
       </div>
 
       {items.length === 0 ? (
-        <p>No data available. Please try a different search term or adjust the filters.</p>
+        <p>No data available</p> // Show this if items is an empty array
       ) : (
         <table
           style={{
@@ -129,7 +123,6 @@ const ManagementTable = ({ columnMapping, fetchData, onEdit, onView }) => {
                       borderRadius: '4px',
                       cursor: 'pointer'
                     }}
-                    title="View details"
                   >
                     View
                   </button>
@@ -143,7 +136,6 @@ const ManagementTable = ({ columnMapping, fetchData, onEdit, onView }) => {
                       borderRadius: '4px',
                       cursor: 'pointer'
                     }}
-                    title="Edit this item"
                   >
                     Edit
                   </button>
@@ -156,7 +148,7 @@ const ManagementTable = ({ columnMapping, fetchData, onEdit, onView }) => {
 
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
         <button
-          onClick={() => handlePageChange(currentPage - 1)}
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
           style={{
             padding: '10px 20px',
@@ -172,7 +164,7 @@ const ManagementTable = ({ columnMapping, fetchData, onEdit, onView }) => {
         </button>
         <span style={{ padding: '10px' }}>Page {currentPage} of {totalPages}</span>
         <button
-          onClick={() => handlePageChange(currentPage + 1)}
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
           disabled={currentPage === totalPages}
           style={{
             padding: '10px 20px',
@@ -189,20 +181,6 @@ const ManagementTable = ({ columnMapping, fetchData, onEdit, onView }) => {
       </div>
     </div>
   );
-};
-
-ManagementTable.propTypes = {
-  columnMapping: PropTypes.object.isRequired,
-  fetchData: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
-  onView: PropTypes.func.isRequired
-};
-
-ManagementTable.defaultProps = {
-  columnMapping: {},
-  fetchData: () => {},
-  onEdit: () => {},
-  onView: () => {}
 };
 
 export default ManagementTable;

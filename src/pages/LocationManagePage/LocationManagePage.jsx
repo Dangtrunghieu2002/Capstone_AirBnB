@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import useImageUpload from '../hooks/useImageUpload'; // Hook quản lý ảnh
-import useDebounce from '../hooks/useDebounce'; // Hook debounce
+import useImageUpload from '../../hooks/useImageUpload.jsx'; // Hook quản lý ảnh
+import useDebounce from '../../hooks/useDebounce.jsx'; // Hook debounce
 import AdminTopBar from '../../components/AdminTopBar/AdminTopBar.jsx';
 import AdminSideBar from '../../components/AdminSideBar/AdminSideBar.jsx';
 import ManagementTable from '../../components/ManagementTable/ManagementTable.jsx';
@@ -23,7 +23,7 @@ const LocationManagementPage = () => {
     useEffect(() => {
         const fetchLocations = async (page, keyword) => {
             try {
-                const response = await api.get('/vi-tri/phan-trang-tim-kiem', {
+                const response = await api.get('/vi-tri', {
                     params: { pageIndex: page, pageSize: 10, keyword },
                 });
                 setLocations(response.data.content); // Assuming 'content' contains the list of locations

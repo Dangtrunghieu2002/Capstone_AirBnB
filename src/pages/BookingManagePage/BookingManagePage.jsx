@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useDebounce from '../hooks/useDebounce'; // Hook debounce
+import useDebounce from '../../hooks/useDebounce.jsx'; // Hook debounce
 import AdminTopBar from '../../components/AdminTopBar/AdminTopBar.jsx';
 import AdminSideBar from '../../components/AdminSideBar/AdminSideBar.jsx';
 import ManagementTable from '../../components/ManagementTable/ManagementTable.jsx';
