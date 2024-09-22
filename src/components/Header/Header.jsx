@@ -17,7 +17,10 @@ import {
 import { formatDateString } from "../../utils/utils";
 import { useSpring, animated } from "@react-spring/web";
 import { throttle } from "lodash";
-import { transpile } from "typescript";
+import { viTriService } from "../../service/viTri.service";
+import useDebounce from "../../hooks/useDebounce";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { path } from "../../common/path/path";
 const Header = (props) => {
   const dispatch = useDispatch();
   const { guest, childGuest, babyGuest, startDate, endDate } = useSelector(
@@ -30,10 +33,19 @@ const Header = (props) => {
   const [isScrollingDown, setIsScrollingDown] = useState(false);
   const [scrollOverride, setScrollOverride] = useState(false);
   const [responsiveActive, setResponsiveActive] = useState(false);
+  const [responsievActiveTime, setResponsivActiveTime] = useState(true);
+  const [responsievActiveGuest, setResponsivActiveGuest] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [listViTri, setListViTri] = useState([]);
+  const [listIdViTri, setListIdViTri] = useState([]);
+  const [searchParam] = useSearchParams();
+  const [isHandlingClick, setIsHandlingClick] = useState(false);
+  const [isSelect, setIsSelect] = useState(false);
+  const debouncedValue = useDebounce(inputValue, 0);
   const inputRef = useRef(null);
   const pickerRef = useRef(null);
   const containerRef = useRef(null);
+  const navigate = useNavigate();
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
@@ -52,6 +64,7 @@ const Header = (props) => {
     setWindowWidth(window.innerWidth);
   };
   const handleSelect = (ranges) => {
+    setIsSelect(true);
     dispatch(setStartDateR(ranges.selection.startDate));
     dispatch(setEndDateR(ranges.selection.endDate));
     // {
@@ -133,6 +146,7 @@ const Header = (props) => {
         containerRef.current &&
         !containerRef.current.contains(event.target)
       ) {
+        setIsHandlingClick(false);
         setScrollOverride(false);
         if (window.scrollY > 105) setIsScrollingDown(true);
       }
@@ -144,9 +158,20 @@ const Header = (props) => {
     };
   }, [throttledScrollHandler]);
   const handleClick = () => {
+    setIsHandlingClick(true);
     setIsScrollingDown(false);
     setScrollOverride(true);
     // Reset the override after a delay or based on specific logic // Example: reset after 5 seconds
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Ngăn chặn hành động mặc định
+    // Thực hiện hành động khi nhấn Enter
+    // navigate(`${path.listRoomPage}?maViTri=${listIdViTri}`)
+  };
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSubmit(event); // Gọi hàm submit nếu nhấn Enter
+    }
   };
   const getDropdownContent = () => {
     if (inputValue === "" && responsiveActive == false) {
@@ -249,23 +274,38 @@ const Header = (props) => {
       );
     } else {
       return (
-        <ul className="py-1">
-          <li>
-            <a
-              href="#"
-              className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-            >
-              Search Result 1 for "{inputValue}"
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-            >
-              Search Result 2 for "{inputValue}"
-            </a>
-          </li>
+        <ul className="p-4">
+          {listViTri.length == 0 ? (
+            <div className="p-5">Vị trí bạn tìm kiếm không tồn tại</div>
+          ) : (
+            listViTri.map((item, index) => {
+              return (
+                <Link
+                  to={`${path.listRoomPage}?maViTri=${item.id}&location=${item.tenViTri}`}
+                  className="flex items-center gap-4 px-4 py-2 hover:bg-gray-100 rounded-xl cursor-pointer"
+                >
+                  <div className="p-3 rounded-xl bg-[#DDDDDD]">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 32 32"
+                      aria-hidden="true"
+                      role="presentation"
+                      focusable="false"
+                      style={{
+                        display: "block",
+                        height: 22,
+                        width: 22,
+                        fill: "currentcolor",
+                      }}
+                    >
+                      <path d="M16 0a12 12 0 0 1 12 12c0 6.34-3.81 12.75-11.35 19.26l-.65.56-1.08-.93C7.67 24.5 4 18.22 4 12 4 5.42 9.4 0 16 0zm0 2C10.5 2 6 6.53 6 12c0 5.44 3.25 11.12 9.83 17.02l.17.15.58-.52C22.75 23 25.87 17.55 26 12.33V12A10 10 0 0 0 16 2zm0 5a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
+                    </svg>
+                  </div>
+                  <h3>{item.tenViTri}</h3>
+                </Link>
+              );
+            })
+          )}
         </ul>
       );
     }
@@ -339,6 +379,7 @@ const Header = (props) => {
               onFocus={handleFocusInput}
               onChange={handleChange}
               value={inputValue}
+              onKeyDown={handleKeyDown}
               placeholder="Tìm kiếm điểm đến"
               className={`${
                 isFocused !== 1 && isFocused !== null ? "bg-[#DDDDDD]" : ""
@@ -366,7 +407,7 @@ const Header = (props) => {
           <div
             className={`text-[0.875rem] font-normal text-[#222222] opacity-70 focus:outline-none w-[80px]`}
           >
-            Thêm ngày
+            {isSelect ? formatDateString(startDate, false) : "Thêm ngày"}
           </div>
         </div>
         <div className="w-[1px] h-[30px] bg-gray-300"></div>
@@ -384,7 +425,7 @@ const Header = (props) => {
           <div
             className={`text-[0.875rem] font-normal text-[#222222] opacity-70 focus:outline-none w-[80px]`}
           >
-            Thêm ngày
+            {isSelect ? formatDateString(endDate, false) : "Thêm ngày"}
           </div>
           {(isFocused === 2 || isFocused === 3) && (
             <div
@@ -962,6 +1003,32 @@ const Header = (props) => {
     );
   };
   if (windowWidth > 768 && responsiveActive) setResponsiveActive(false);
+  useEffect(() => {
+    viTriService
+      .phanTrangTimKiem(inputValue)
+      .then((res) => {
+        const newListViTri = res.data.content.data;
+        setListViTri(newListViTri);
+
+        // Lấy tất cả các ID vào một mảng
+        const newListIdViTri = newListViTri.map((item) => item.id);
+        setListIdViTri(newListIdViTri);
+        // console.log(res);
+      })
+      .catch((err) => console.log(err));
+  }, [debouncedValue]);
+  useEffect(() => {
+    if (!isHandlingClick) {
+      if (searchParam.get("maViTri")) {
+        setIsScrollingDown(true);
+      }
+    }
+  });
+  useEffect(() => {
+    if (!searchParam.get("maViTri")) {
+      setIsScrollingDown(false);
+    }
+  }, [searchParam]);
   return (
     <>
       {scrollOverride && <div className="overlay"></div>}
@@ -1001,7 +1068,7 @@ const Header = (props) => {
             </div>
             <div className="p-5 box-shadow-header rounded-3xl mt-3 bg-[#FFFFFF]">
               <h3 className="text-2xl font-bold">Bạn sẽ đi đâu?</h3>
-              <form className="mt-5">
+              <form onSubmit={handleSubmit} className="mt-5">
                 <div className="py-4 px-5 border-gray-400 border rounded-lg w-full flex items-center gap-3 relative">
                   <div>
                     <svg
@@ -1060,15 +1127,36 @@ const Header = (props) => {
                 })}
               </div>
             </div>
-            <div className="p-5 box-shadow-header rounded-2xl mt-3 bg-[#FFFFFF]">
-              <div className="flex items-center justify-between">
-                <h3 className="font-medium text-gray-500 text-[15px]">
-                  Thời gian
-                </h3>
-                <h3 className="font-medium text-black text-[15px]">
-                  Thêm ngày
-                </h3>
-              </div>
+            <div
+              onClick={() => {
+                setResponsivActiveTime(!responsievActiveTime);
+              }}
+              className="cursor-pointer p-5 box-shadow-header rounded-2xl mt-3 bg-[#FFFFFF]"
+            >
+              {responsievActiveTime ? (
+                <div className="flex items-center justify-between">
+                  <h3 className="font-medium text-gray-500 text-[15px]">
+                    Thời gian
+                  </h3>
+                  <h3 className="font-medium text-black text-[15px]">
+                    Thêm ngày
+                  </h3>
+                </div>
+              ) : (
+                <div>
+                  <h3 className="text-xl font-semibold">
+                    Chuyến đi của bạn diễn ra khi nào?
+                  </h3>
+                  <div className="mt-5">
+                    <DateRangePicker
+                      ranges={[selectionRange]}
+                      minDate={new Date()}
+                      rangeColors={["#FD5B61"]}
+                      onChange={handleSelect}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
             <div className="p-5 box-shadow-header rounded-2xl mt-3 bg-[#FFFFFF]">
               <div className="flex items-center justify-between">
@@ -1100,7 +1188,7 @@ const Header = (props) => {
                     <path d="M13 0a13 13 0 0 1 10.5 20.67l7.91 7.92-2.82 2.82-7.92-7.91A12.94 12.94 0 0 1 13 26a13 13 0 1 1 0-26zm0 4a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" />
                   </svg>
                 </div>
-                <h3 className="text-lg font-medium">Tìm kiếm</h3>
+                <button className="text-lg font-medium">Tìm kiếm</button>
               </button>
             </div>
           </div>
@@ -1113,7 +1201,7 @@ const Header = (props) => {
       >
         <header className="h-[80px]">
           <div className="pl-10 pr-2 2xl:px-20 flex items-center justify-between h-full w-full">
-            <div>
+            <Link to={path.homePage} className="z-[200]">
               <div className="hidden lg:block">
                 <svg
                   width={102}
@@ -1144,7 +1232,7 @@ const Header = (props) => {
                   />
                 </svg>
               </div>
-            </div>
+            </Link>
             <div className="pl-[20px]">
               <animated.div
                 style={{ ...springProps2 }}
@@ -1158,17 +1246,25 @@ const Header = (props) => {
                 >
                   <div className="text-[14px] w-[30%] font-medium">
                     <h3 className="overflow-hidden text-ellipsis whitespace-nowrap">
-                      Địa điểm bất kỳ
+                      {searchParam.get("location")
+                        ? `${searchParam.get("location")}`
+                        : `Địa điểm bất kỳ`}
                     </h3>
                   </div>
                   <div className="w-[1px] h-[25px] bg-gray-300"></div>
-                  <h3 className="text-[14px] w-[30%] font-medium overflow-hidden text-ellipsis whitespace-nowrap">
-                    Tuần bất kỳ
+                  <h3 className="text-[14px] w-[40%] font-medium overflow-hidden text-ellipsis whitespace-nowrap">
+                    {isSelect
+                      ? `${formatDateString(startDate, false)} - ${formatDateString(endDate, false)}`
+                      : "Tuần bất kỳ"}
                   </h3>
                   <div className="w-[1px] h-[25px] bg-gray-300"></div>
                   <div className="flex items-center gap-3 w-[40%]">
                     <p className="text-[14px] opacity-70 overflow-hidden text-ellipsis whitespace-nowrap">
-                      Thêm khách
+                      {guest == 0
+                        ? "Thêm khách"
+                        : `${guest + childGuest} khách${
+                            babyGuest == 0 ? "" : ``
+                          }`}
                     </p>
                     <div className="p-3 bg-red-500 rounded-full text-white">
                       <svg

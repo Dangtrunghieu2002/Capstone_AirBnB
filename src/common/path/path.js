@@ -1,2 +1,5 @@
-export const path = [
-]
+export const path = {
+    homePage: "/",
+    pageNotFound : "*",
+    listRoomPage : "list-room",
+}

@@ -204,10 +204,16 @@ const IndexPage = () => {
     },
   ];
   const cardData = [
-    { img: "https://links.papareact.com/2io", title: "Trang trại và thiên nhiên" },
+    {
+      img: "https://links.papareact.com/2io",
+      title: "Trang trại và thiên nhiên",
+    },
     { img: "https://links.papareact.com/q7j", title: "Chỗ ở độc đáo" },
     { img: "https://links.papareact.com/s03", title: "Toàn bộ nhà" },
-    { img: "https://links.papareact.com/8ix", title: "Cho phép mang theo thú cưng" },
+    {
+      img: "https://links.papareact.com/8ix",
+      title: "Cho phép mang theo thú cưng",
+    },
   ];
   const containerRef = useRef(null);
   const itemWidth = 100; // Width of each item including padding and margin
@@ -215,7 +221,6 @@ const IndexPage = () => {
   const scrollAmount = itemWidth * itemsToScroll; // Calculate the scroll amount
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
-
   const checkScrollPosition = () => {
     if (containerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
@@ -224,47 +229,62 @@ const IndexPage = () => {
     }
   };
 
-  useEffect(() => {
-    checkScrollPosition();
-    window.addEventListener("resize", checkScrollPosition);
-    return () => window.removeEventListener("resize", checkScrollPosition);
-  }, [isAtStart, isAtEnd]);
-  useEffect(() => {
-    dispatch(getLocationApi());
-  }, []);
   const scrollLeft = () => {
     if (containerRef.current) {
       containerRef.current.scrollBy({
         left: -scrollAmount,
         behavior: "smooth",
       });
+      setTimeout(checkScrollPosition, 300); // Thay đổi thời gian nếu cần
     }
   };
 
   const scrollRight = () => {
     if (containerRef.current) {
-      containerRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      containerRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: "smooth",
+      });
+      setTimeout(checkScrollPosition, 300); // Thay đổi thời gian nếu cần
     }
   };
+  useEffect(() => {
+    const handleScroll = () => {
+      checkScrollPosition();
+    };
+
+    if (containerRef.current) {
+      containerRef.current.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        containerRef.current.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
   const showActive = () => {
     if (isActive == 0) return <Signature />;
     if (isActive == 1) return <Landmark />;
     if (isActive == 2) return <Design />;
-    if(isActive == 3) return <Pool/>
-    if(isActive == 4) return <Room/>
-    if(isActive == 5) return <Play/>
-    if(isActive == 6) return <Golf/>
-    if(isActive == 7) return <Kitchen/>
-    else return <North/>
+    if (isActive == 3) return <Pool />;
+    if (isActive == 4) return <Room />;
+    if (isActive == 5) return <Play />;
+    if (isActive == 6) return <Golf />;
+    if (isActive == 7) return <Kitchen />;
+    else return <North />;
   };
+  useEffect(() => {
+    dispatch(getLocationApi());
+  }, []);
   return (
     <>
       <div className="mt-4 px-10 2xl:px-20">
         <section className="relative">
-          {
+          {!isAtStart && (
             <button
               onClick={scrollLeft}
-              className="absolute left-[-40px] top-1/2 transform -translate-y-1/2 bg-[#FFFFFF] border_nav p-[9px] rounded-full"
+              className="absolute left-[-20px] z-10 top-1/2 transform -translate-y-1/2 bg-[#FFFFFF] border_nav p-[9px] rounded-full"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -282,11 +302,11 @@ const IndexPage = () => {
                 <path d="m10.55.3 1.42 1.4L5.67 8l6.3 6.3-1.42 1.4-6.59-6.58a1.58 1.58 0 0 1-.1-2.13l.1-.11z" />
               </svg>
             </button>
-          }
+          )}
           <div className="">
             <div
               ref={containerRef}
-              className="flex items-center gap-5 lg:gap-10 overflow-hidden scrollbar-hide w-[99%]"
+              className="flex bg-[#ffffff] items-center gap-5 lg:gap-10 overflow-hidden w-[99%]"
             >
               {data.map((item, index) => (
                 <div
@@ -309,7 +329,7 @@ const IndexPage = () => {
             </div>
           </div>
 
-          {
+          {!isAtEnd && (
             <button
               onClick={scrollRight}
               className="absolute right-[-40px] lg:right-[-20px] top-1/2 transform -translate-y-1/2 bg-[#FFFFFF] p-[9px] border_nav rounded-full"
@@ -330,7 +350,7 @@ const IndexPage = () => {
                 <path d="M5.41.3 4 1.7 10.3 8 4 14.3l1.41 1.4 6.6-6.58c.57-.58.6-1.5.1-2.13l-.1-.11z" />
               </svg>
             </button>
-          }
+          )}
         </section>
         <section className="mt-5">{showActive()}</section>
         <section className="mt-10">
@@ -339,9 +359,10 @@ const IndexPage = () => {
           </h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
             {locationApi.map((item, index) => {
-              const { hinhAnh, tinhThanh, tenViTri } = item;
+              const { hinhAnh, tinhThanh, tenViTri, id } = item;
               return (
                 <SmallCard
+                  id={id}
                   hinhAnh={hinhAnh}
                   tinhThanh={tinhThanh}
                   tenViTri={tenViTri}
@@ -353,8 +374,10 @@ const IndexPage = () => {
         <section className="mt-10">
           <h2 className="text-3xl font-semibold">Ở bất cứ đâu</h2>
           <div className="flex space-x-3 overflow-scroll scrollbar-hide justify-between">
-            {cardData.map((item,index) => {
-              return <MediumCard  key={item.img} img={item.img} title={item.title}/>
+            {cardData.map((item, index) => {
+              return (
+                <MediumCard key={item.img} img={item.img} title={item.title} />
+              );
             })}
           </div>
         </section>
