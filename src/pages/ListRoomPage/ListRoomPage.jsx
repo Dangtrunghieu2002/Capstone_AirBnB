@@ -3,7 +3,6 @@ import ContentComponent from "../../components/ListRoomComponent/ContentComponen
 import { useSearchParams } from "react-router-dom";
 import { phongService } from "../../service/phong.service";
 import MapboxComponent from "../../components/ListRoomComponent/MapboxComponent";
-
 const ListRoomPage = () => {
   const [searchParam] = useSearchParams();
   const [listRoom, setListRoom] = useState([]);
@@ -22,11 +21,11 @@ const ListRoomPage = () => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className="flex pl-10 pr-2 2xl:pl-20 justify-between ">
-      <div className="w-[63%]">
+    <div className="flex pl-10 pr-2 2xl:pl-20 justify-between">
+      <div className=" xl:w-[62%] w-full">
         <ContentComponent listRoom={listRoom} />
       </div>
-      <div className="sticky top-0 h-screen">
+      <div className="sticky top-0 h-screen hidden xl:block">
         <MapboxComponent />
       </div>
     </div>
