@@ -11,3 +11,15 @@ export function formatDateString(dateString, isTrue = true) {
   if (isTrue) return `${day}-${month}-${year}`;
   else return `${day} thg ${month}`
 }
+
+export function calculateDaysBetween(startDateString, endDateString) {
+  // Chuyển đổi chuỗi ngày thành đối tượng Date
+  const startDate = new Date(startDateString);
+  const endDate = new Date(endDateString);
+
+  // Tính số ngày giữa hai ngày
+  const timeDifference = endDate - startDate; // tính bằng milliseconds
+  const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); // chuyển đổi sang ngày
+
+  return dayDifference;
+}

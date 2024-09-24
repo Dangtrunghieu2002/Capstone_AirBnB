@@ -21,7 +21,7 @@ const ListRoomPage = () => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className="flex pl-10 pr-2 2xl:pl-20 justify-between">
+    <div className="flex pl-10 pr-2 xl:pl-20 justify-between">
       <div className=" xl:w-[62%] w-full">
         <ContentComponent listRoom={listRoom} />
       </div>

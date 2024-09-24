@@ -17,6 +17,12 @@
 .box-shadow-header2 {
   box-shadow: rgb(0 0 0/8%) 0 1px 0;
 }
+.box-shadow-room {
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
+}
+.box-shadow-date {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 6px 20px !important;
+}
 
 .hover-input {
   &:hover input {
@@ -62,8 +68,8 @@
   position: fixed;
   z-index: 99;
 }
-.responsiveOverLay{
-  background-color: #F7F7F7;
+.responsiveOverLay {
+  background-color: #f7f7f7;
   left: 0;
   right: 0;
   bottom: 0;
@@ -87,15 +93,15 @@ footer {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 4fr) minmax(0, 1fr);
     grid-gap: 24px;
-    .footer1-content{
+    .footer1-content {
       grid-column-start: 2;
     }
   }
 }
 
 @media (max-width: 1580px) {
-  footer{
-    .footer1{
+  footer {
+    .footer1 {
       display: block;
     }
   }

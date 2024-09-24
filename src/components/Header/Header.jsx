@@ -41,6 +41,8 @@ const Header = (props) => {
   const [searchParam] = useSearchParams();
   const [isHandlingClick, setIsHandlingClick] = useState(false);
   const [isSelect, setIsSelect] = useState(false);
+  const initialMx = 312; // Giá trị ban đầu của mx
+  const [mx, setMx] = useState(initialMx); // Giá trị ban đầu của mx
   const debouncedValue = useDebounce(inputValue, 0);
   const inputRef = useRef(null);
   const pickerRef = useRef(null);
@@ -51,6 +53,9 @@ const Header = (props) => {
     endDate: endDate,
     key: "selection",
   };
+  const marginStyle = searchParam.get("maPhong")
+    ? { marginLeft: mx, marginRight: mx }
+    : { margin: "0" }; // Giá trị mặc định nếu không có maPhong
   const throttledScrollHandler = useCallback(
     throttle(() => {
       if (!scrollOverride) {
@@ -1019,16 +1024,35 @@ const Header = (props) => {
   }, [debouncedValue]);
   useEffect(() => {
     if (!isHandlingClick) {
-      if (searchParam.get("maViTri")) {
+      if (searchParam.size) {
         setIsScrollingDown(true);
       }
     }
   });
   useEffect(() => {
-    if (!searchParam.get("maViTri")) {
+    if (!searchParam.size) {
       setIsScrollingDown(false);
     }
   }, [searchParam]);
+  useEffect(() => {
+    const handleResize = () => {
+      const newWidth = window.innerWidth;
+      const newMx = Math.max(
+        0,
+        initialMx - Math.floor(((initialMx / 63) * (1924 - newWidth)) / 10)
+      ); // Giảm mx
+      setMx(newMx);
+    };
+
+    // Thêm sự kiện lắng nghe resize
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Gọi lần đầu để thiết lập giá trị đúng
+
+    // Cleanup khi component bị gỡ bỏ
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [initialMx]);
   return (
     <>
       {scrollOverride && <div className="overlay"></div>}
@@ -1199,8 +1223,8 @@ const Header = (props) => {
         className={`hidden md:block sticky top-0 right-0 bottom-0 z-[100] box-shadow-header2 bg-white`}
         style={{ ...springProps }}
       >
-        <header className="h-[80px]">
-          <div className="pl-10 pr-2 2xl:px-20 flex items-center justify-between h-full w-full">
+        <header className={`h-[80px]`} style={marginStyle}>
+          <div className="pl-10 pr-2 xl:px-20 flex items-center justify-between h-full w-full">
             <Link to={path.homePage} className="z-[200]">
               <div className="hidden lg:block">
                 <svg
@@ -1252,9 +1276,12 @@ const Header = (props) => {
                     </h3>
                   </div>
                   <div className="w-[1px] h-[25px] bg-gray-300"></div>
-                  <h3 className="text-[14px] w-[40%] font-medium overflow-hidden text-ellipsis whitespace-nowrap">
+                  <h3 className="text-[14px] w-[60%] font-medium overflow-hidden text-ellipsis whitespace-nowrap">
                     {isSelect
-                      ? `${formatDateString(startDate, false)} - ${formatDateString(endDate, false)}`
+                      ? `${formatDateString(
+                          startDate,
+                          false
+                        )} - ${formatDateString(endDate, false)}`
                       : "Tuần bất kỳ"}
                   </h3>
                   <div className="w-[1px] h-[25px] bg-gray-300"></div>

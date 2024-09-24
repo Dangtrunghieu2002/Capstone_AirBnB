@@ -1,5 +1,6 @@
 export const path = {
     homePage: "/",
     pageNotFound : "*",
-    listRoomPage : "list-room",
+    listRoomPage : "/list-room",
+    roomDetail : "/room-detail"
 }

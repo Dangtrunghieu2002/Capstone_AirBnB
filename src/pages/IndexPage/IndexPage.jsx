@@ -279,7 +279,7 @@ const IndexPage = () => {
   }, []);
   return (
     <>
-      <div className="mt-4 px-10 2xl:px-20">
+      <div className="mt-4 px-10 xl:px-20">
         <section className="relative">
           {!isAtStart && (
             <button
