@@ -41,12 +41,16 @@ const Header = (props) => {
   const [searchParam] = useSearchParams();
   const [isHandlingClick, setIsHandlingClick] = useState(false);
   const [isSelect, setIsSelect] = useState(false);
+  const [isActiveNavRoom, setIsActiveNavRoom] = useState(false);
+  const [isActiveNavPrice, setIsActiveNavPrice] = useState(false);
   const initialMx = 312; // Giá trị ban đầu của mx
-  const [mx, setMx] = useState(initialMx); // Giá trị ban đầu của mx
+  const [mx, setMx] = useState(initialMx);
+  const [isFocusSignIn, setIsFocusSignIn] = useState(false); // Giá trị ban đầu của mx
   const debouncedValue = useDebounce(inputValue, 0);
   const inputRef = useRef(null);
   const pickerRef = useRef(null);
   const containerRef = useRef(null);
+  const signInRef = useRef(null);
   const navigate = useNavigate();
   const selectionRange = {
     startDate: startDate,
@@ -322,6 +326,11 @@ const Header = (props) => {
   };
   const handleBlur = () => {
     setIsFocused(null);
+  };
+  const handleBlurSignIn = (event) => {
+    if (signInRef.current && !signInRef.current.contains(event.target)) {
+      setIsFocusSignIn(false);
+    }
   };
   const springProps = useSpring({
     height: isScrollingDown
@@ -1053,6 +1062,25 @@ const Header = (props) => {
       window.removeEventListener("resize", handleResize);
     };
   }, [initialMx]);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (scrollY > 550) {
+        setIsActiveNavRoom(true);
+      } else {
+        setIsActiveNavRoom(false);
+      }
+      if (scrollY > 1950) {
+        setIsActiveNavPrice(true);
+      } else setIsActiveNavPrice(false);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  useEffect(() => {
+    window.addEventListener("mousedown", handleBlurSignIn);
+
+    return () => window.removeEventListener("mousedown", handleBlurSignIn);
+  }, []);
   return (
     <>
       {scrollOverride && <div className="overlay"></div>}
@@ -1220,11 +1248,17 @@ const Header = (props) => {
       )}
       <animated.div
         ref={containerRef}
-        className={`hidden md:block sticky top-0 right-0 bottom-0 z-[100] box-shadow-header2 bg-white`}
+        className={`hidden md:block ${
+          searchParam.get("maPhong") && !isActiveNavRoom ? "relative" : "sticky"
+        } top-0 right-0 bottom-0 z-[100] box-shadow-header2 bg-white`}
         style={{ ...springProps }}
       >
-        <header className={`h-[80px]`} style={marginStyle}>
-          <div className="pl-10 pr-2 xl:px-20 flex items-center justify-between h-full w-full">
+        <header className={`h-[80px] pl-10 pr-2 xl:px-20`} style={marginStyle}>
+          <div
+            className={`${
+              isActiveNavRoom && searchParam.get("maPhong") ? "hidden" : "flex"
+            } items-center justify-between h-full w-full`}
+          >
             <Link to={path.homePage} className="z-[200]">
               <div className="hidden lg:block">
                 <svg
@@ -1373,7 +1407,17 @@ const Header = (props) => {
                   <path d="M8 .25a7.77 7.77 0 0 1 7.75 7.78 7.75 7.75 0 0 1-7.52 7.72h-.25A7.75 7.75 0 0 1 .25 8.24v-.25A7.75 7.75 0 0 1 8 .25zm1.95 8.5h-3.9c.15 2.9 1.17 5.34 1.88 5.5H8c.68 0 1.72-2.37 1.93-5.23zm4.26 0h-2.76c-.09 1.96-.53 3.78-1.18 5.08A6.26 6.26 0 0 0 14.17 9zm-9.67 0H1.8a6.26 6.26 0 0 0 3.94 5.08 12.59 12.59 0 0 1-1.16-4.7l-.03-.38zm1.2-6.58-.12.05a6.26 6.26 0 0 0-3.83 5.03h2.75c.09-1.83.48-3.54 1.06-4.81zm2.25-.42c-.7 0-1.78 2.51-1.94 5.5h3.9c-.15-2.9-1.18-5.34-1.89-5.5h-.07zm2.28.43.03.05a12.95 12.95 0 0 1 1.15 5.02h2.75a6.28 6.28 0 0 0-3.93-5.07z" />
                 </svg>
               </div>
-              <div className="py-[6px] pl-3 pr-2 rounded-full flex gap-4 items-center border">
+              <div
+                ref={signInRef}
+                tabIndex={0}
+                onBlur={handleBlurSignIn}
+                onClick={() => {
+                  setIsFocusSignIn(true);
+                }}
+                className={`sign_in relative py-[6px] pl-3 pr-2 rounded-full flex gap-4 items-center border ${
+                  isFocusSignIn ? "box-shadow-signin" : ""
+                }`}
+              >
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -1412,8 +1456,92 @@ const Header = (props) => {
                     <path d="M16 .7C7.56.7.7 7.56.7 16S7.56 31.3 16 31.3 31.3 24.44 31.3 16 24.44.7 16 .7zm0 28c-4.02 0-7.6-1.88-9.93-4.81a12.43 12.43 0 0 1 6.45-4.4A6.5 6.5 0 0 1 9.5 14a6.5 6.5 0 0 1 13 0 6.51 6.51 0 0 1-3.02 5.5 12.42 12.42 0 0 1 6.45 4.4A12.67 12.67 0 0 1 16 28.7z" />
                   </svg>
                 </div>
+                {isFocusSignIn && (
+                  <div className="absolute bg-white w-[240px] min-h-[243px] rounded-xl box-shadow-date top-[50px] py-[8px] right-0 cursor-pointer">
+                    <Link
+                      to={path.signIn}
+                      className="px-4 py-3 hover:bg-gray-100 text-[14px] font-medium block"
+                    >
+                      Đăng nhập
+                    </Link>
+                    <Link
+                      to={path.signUp}
+                      className="px-4 py-3 hover:bg-gray-100 text-[14px] block"
+                    >
+                      Đăng ký
+                    </Link>
+                    <hr className="my-[7px]" />
+                    <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
+                      Cho thuê chỗ ở qua Airbnb
+                    </h3>
+                    <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
+                      Tổ chức trải nghiệm
+                    </h3>
+                    <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
+                      Trung tâm trợ giúp
+                    </h3>
+                  </div>
+                )}
               </div>
             </div>
+          </div>
+          <div
+            className={`${
+              isActiveNavRoom && searchParam.get("maPhong") ? "flex" : "hidden"
+            } items-center justify-between  h-full w-full`}
+          >
+            <div className="flex items-center gap-6">
+              <div className="text-sm font-medium py-[28px] border-b-4 border-white hover:border-black transform transition duration-200 ease-out">
+                <h3>Ảnh</h3>
+              </div>
+              <div className="text-sm font-medium py-[28px] border-b-4 border-white hover:border-black transform transition duration-200 ease-out">
+                <h3>Tiện nghi</h3>
+              </div>
+              <div className="text-sm font-medium py-[28px] border-b-4 border-white hover:border-black transform transition duration-200 ease-out">
+                <h3>Đánh giá</h3>
+              </div>
+              <div className="text-sm font-medium py-[28px] border-b-4 border-white hover:border-black transform transition duration-200 ease-out">
+                <h3>Vị trí</h3>
+              </div>
+            </div>
+            {isActiveNavPrice && (
+              <div className="flex items-center gap-5">
+                <div className="">
+                  <h3 className="text-sm">
+                    <span className="font-medium text-lg">$10</span> / đêm
+                  </h3>
+                  <div className="flex items-center gap-1">
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 32 32"
+                        aria-hidden="true"
+                        role="presentation"
+                        focusable="false"
+                        style={{
+                          display: "block",
+                          height: 10,
+                          width: 10,
+                          fill: "currentcolor",
+                        }}
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"
+                        />
+                      </svg>
+                    </div>
+                    <span className="text-sm font-medium">4,87 · </span>
+                    <span className="text-sm text-gray-500">157 đánh giá</span>
+                  </div>
+                </div>
+                <div>
+                  <button className="px-[34px] py-[12px] rounded-lg text-white font-medium bg-[#E41D55]">
+                    Đặt phòng
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </header>
       </animated.div>

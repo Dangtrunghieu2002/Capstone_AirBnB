@@ -3,8 +3,10 @@ import Regular from "../FooterComponent/Regular";
 import Cultural from "../FooterComponent/Cultural";
 import Outside from "../FooterComponent/Outside";
 import Mountain from "../FooterComponent/Mountain";
+import { useParams, useSearchParams } from "react-router-dom";
 
 const Footer = () => {
+  const [searchParam] = useSearchParams();
   const content = [
     "Phổ biến",
     "Văn hóa và nghệ thuật",
@@ -22,9 +24,17 @@ const Footer = () => {
     else return <Mountain />;
   };
   return (
-    <footer className="bg-[#F7F7F7] px-[40px] lg:px-[80px]">
-      <div className="footer1 mt-10 py-[48px] border-b">
-        <div className="footer1-content">
+    <footer
+      className={`bg-[#F7F7F7] px-[40px] lg:px-[80px] ${
+        searchParam.get("maPhong") ? "border-t" : ""
+      }`}
+    >
+      <div
+        className={`${
+          searchParam.get("maPhong") ? "hidden" : "footer1"
+        } mt-10  py-[48px] border-b`}
+      >
+        <div className={`footer1-content`}>
           <h3 className="text-xl lg:text-2xl font-medium">
             Nguồn cảm hứng cho những kỳ nghỉ sau này
           </h3>

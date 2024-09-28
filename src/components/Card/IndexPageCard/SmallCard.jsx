@@ -4,7 +4,7 @@ import { path } from "../../../common/path/path";
 const SmallCard = ({ hinhAnh, tinhThanh, tenViTri, id }) => {
   return (
     <Link
-      to={`${path.listRoomPage}?maViTri=${id}&location=${tenViTri}`}
+      to={`${path.listRoomPage}?maViTri=${id}&location=${tenViTri}&province=${tinhThanh}`}
       className="flex items-center m-2 mt-5 space-x-4 rounded-xl cursor-pointer hover:bg-gray-100 hover:scale-105 transition transform duration-200 ease-in-out"
     >
       <div className="h-16 w-16">

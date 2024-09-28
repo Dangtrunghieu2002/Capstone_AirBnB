@@ -8,9 +8,17 @@ export const getLocationApi = createAsyncThunk(
     return response.data.content;
   }
 );
+export const getLocationApiId = createAsyncThunk(
+  "viTri/getLocationApiId",
+  async (data, thunkAPI) => {
+    const response = await viTriService.layViTriTheoId(data);
+    return response.data.content
+  }
+);
 
 const initialState = {
   locationApi: [],
+  location: [],
 };
 
 const viTriSlice = createSlice({
@@ -20,6 +28,9 @@ const viTriSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getLocationApi.fulfilled, (state, action) => {
       state.locationApi = action.payload;
+    });
+    builder.addCase(getLocationApiId.fulfilled, (state, action) => {
+      state.location = action.payload;
     });
   },
 });

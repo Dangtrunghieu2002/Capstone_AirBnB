@@ -6,15 +6,13 @@ import {
 } from "../../redux/SliceUser/InforBookingSlice";
 import { DateRangePicker } from "react-date-range";
 
-const DateRangPicker = ({ setIsSelectRange, setIsSelect }) => {
+const DateRangPicker = ({ setIsSelectRange }) => {
   const { startDate, endDate } = useSelector(
     (state) => state.InforBookingSlice
   );
   const dispatch = useDispatch();
   const handleSelect = (ranges) => {
-    setIsSelectRange(true);
-    if (ranges.selection.startDate === ranges.selection.endDate)
-      setIsSelect(false);
+    setIsSelectRange ? setIsSelectRange(true) : null;
     dispatch(setStartDateR(ranges.selection.startDate));
     dispatch(setEndDateR(ranges.selection.endDate));
     // {
@@ -33,6 +31,7 @@ const DateRangPicker = ({ setIsSelectRange, setIsSelect }) => {
     <div>
       <DateRangePicker
         className="mt-5"
+        // showDateDisplay={false}
         ranges={[selectionRange]}
         minDate={new Date()}
         rangeColors={["#FD5B61"]}

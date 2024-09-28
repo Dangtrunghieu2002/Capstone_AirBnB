@@ -5,6 +5,8 @@ import IndexPage from "../pages/IndexPage/IndexPage";
 import { path } from "../common/path/path";
 import ListRoomPage from "../pages/ListRoomPage/ListRoomPage";
 import RoomDetailPage from "../pages/RoomDetailPage/RoomDetailPage";
+import SignInPage from "../pages/SignInPage/SignInPage";
+import SignUpPage from "../pages/SignUpPage/SignUpPage";
 const useRoutesCustome = () => {
   const routes = useRoutes([
     {
@@ -25,6 +27,14 @@ const useRoutesCustome = () => {
         },
       ],
     },
+    {
+      path: path.signIn,
+      element: <SignInPage />,
+    },
+    {
+      path: path.signUp,
+      element:<SignUpPage/>
+    }
   ]);
   return routes;
 };

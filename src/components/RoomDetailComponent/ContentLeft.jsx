@@ -6,12 +6,13 @@ const ContentLeft = ({ room }) => {
   const { startDate, endDate } = useSelector(
     (state) => state.InforBookingSlice
   );
+  const { location } = useSelector((state) => state.viTriSlice);
   const night = calculateDaysBetween(startDate, endDate);
   return (
     <div>
       <div className="py-[32px]">
         <h3 className="text-2xl font-medium">
-          Toàn bộ biệt thự tại Thành phố Nha Trang, Việt Nam
+          Toàn bộ biệt thự tại Thành phố {location.tinhThanh}, Việt Nam
         </h3>
         <p className="text-[16px]">
           {room?.khach} khách · {room?.phongNgu} phòng ngủ · {room?.giuong}{" "}
@@ -657,7 +658,7 @@ const ContentLeft = ({ room }) => {
       </div>
       <div className="py-[48px]">
         <h3 className="text-2xl font-medium mb-2">
-          {night} đêm tại thành phố Nha Trang
+          {night} đêm tại thành phố {location.tinhThanh}
         </h3>
         <p className="text-sm text-gray-500 mb-3">
           {formatDateString(startDate, false)} -{" "}

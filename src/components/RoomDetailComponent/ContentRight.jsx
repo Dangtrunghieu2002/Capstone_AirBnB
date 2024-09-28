@@ -19,9 +19,9 @@ const ContentRight = ({ room }) => {
   const dispatch = useDispatch();
   const night = calculateDaysBetween(startDate, endDate);
   const containerRef = useRef();
-  const [isFocus, setIsFocused] = useState(false);
+  const [isFocus, setIsFocused] = useState(null);
   const [isSelectRange, setIsSelectRange] = useState(false);
-  const [isSelect, setIsSelect] = useState(null);
+  const [isSelect, setIsSelect] = useState(true);
   const handleClickPickDay = () => {
     setIsFocused(1);
   };
@@ -116,7 +116,6 @@ const ContentRight = ({ room }) => {
                   </div>
                   <DateRangPicker
                     setIsSelectRange={setIsSelectRange}
-                    setIsSelect={setIsSelect}
                   />
                 </div>
               )}

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-const MapboxComponent = () => {
+const MapboxComponent = ({ locations }) => {
   const [amounts, setAmounts] = useState([]);
   const [positions, setPositions] = useState([]);
-
+  const { location } = useSelector((state) => state.viTriSlice);
+  const mapLocation = locations.find((item) => item.name == location.tinhThanh);
+  console.log(mapLocation);
   useEffect(() => {
     // Tạo số tiền ngẫu nhiên
     const generatedAmounts = [];
@@ -26,14 +29,18 @@ const MapboxComponent = () => {
   return (
     <div className="relative">
       <div className="h-screen w-full">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d26366.92686312526!2d106.66877353264934!3d10.775489832278177!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1726920424336!5m2!1svi!2s"
-          style={{ border: 0 }}
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          className=" h-full xl:w-[450px] 2xl:w-[660px]"
-        />
+        {mapLocation?.iframe ? (
+          mapLocation.iframe
+        ) : (
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d26366.92686312526!2d106.66877353264934!3d10.775489832278177!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1726920424336!5m2!1svi!2s"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className=" h-full xl:w-[450px] 2xl:w-[660px]"
+          />
+        )}
       </div>
       {amounts.map((item, index) => {
         const position = positions[index];
