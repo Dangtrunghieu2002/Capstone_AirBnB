@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import SignatureCard from "../Card/IndexPageCard/SignatureCard";
+import SkeletonComponent from "../Skeleton/SkeletionIndexPage/SkeletonComponent";
 
 const Signature = () => {
   const data = [
@@ -114,19 +115,43 @@ const Signature = () => {
       owner: "Sandi",
     },
   ];
+  const [loadedCards, setLoadedCards] = useState([]);
+  useEffect(() => {
+    const loadCards = async () => {
+      for (let i = 0; i < data.length; i++) {
+        setLoadedCards((prev) => [...prev, i]); // Thêm card vào danh sách đã tải
+        await new Promise((resolve) => setTimeout(resolve, 90)); // Đợi 0.2 giây
+      }
+    };
+
+    loadCards();
+  }, []);
+
   return (
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6  gap-6">
-        {data.slice(0, 6).map((item, index) => {
-          return <SignatureCard item={item} />;
-        })}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6">
+        {data.slice(0, 6).map((item, index) => (
+          <div key={index}>
+            {loadedCards.includes(index) ? (
+              <SignatureCard item={item} />
+            ) : (
+              <SkeletonComponent />
+            )}
+          </div>
+        ))}
       </div>
       <div className="mt-10 space-y-5">
         <h3 className="text-[32px] font-medium">Trải nghiệm đã qua</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 gap-y-10">
-          {data.slice(6, data.length).map((item, index) => {
-            return <SignatureCard item={item} />;
-          })}
+          {data.slice(6).map((item, index) => (
+            <div key={index}>
+              {loadedCards.includes(index + 6) ? (
+                <SignatureCard item={item} />
+              ) : (
+                <SkeletonComponent />
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </div>

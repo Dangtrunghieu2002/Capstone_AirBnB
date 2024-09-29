@@ -1,13 +1,54 @@
-import React from "react";
+import React, { Suspense, useRef, useEffect } from "react";
 import { useRoutes } from "react-router-dom";
 import UserTemplate from "../template/UserTemplate/UserTemplate";
-import IndexPage from "../pages/IndexPage/IndexPage";
 import { path } from "../common/path/path";
-import ListRoomPage from "../pages/ListRoomPage/ListRoomPage";
-import RoomDetailPage from "../pages/RoomDetailPage/RoomDetailPage";
-import SignInPage from "../pages/SignInPage/SignInPage";
-import SignUpPage from "../pages/SignUpPage/SignUpPage";
+import DelayedRender from "../components/DelayedRender/DelayedRender";
+import { Skeleton } from "antd";
+import SkeletonIndexPage from "../components/Skeleton/SkeletionIndexPage/SkeletonIndexPage";
+import SkeletonLeftListRoom from "../components/Skeleton/SkeletonListRoomPage/SkeletonLeftListRoom";
+import SkeletonDetailPage from "../components/Skeleton/SkeletonDetailPage/SkeletonDetailPage";
+
+// Hàm helper để trì hoãn import
+const lazyWithDelay = (importFunc, delay) => {
+  return React.lazy(() => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(importFunc());
+      }, delay);
+    });
+  });
+};
+
+// Lazy load các trang với trì hoãn
+const IndexPage = lazyWithDelay(
+  () => import("../pages/IndexPage/IndexPage"),
+  2000
+);
+const ListRoomPage = lazyWithDelay(
+  () => import("../pages/ListRoomPage/ListRoomPage"),
+  2000
+);
+const RoomDetailPage = lazyWithDelay(
+  () => import("../pages/RoomDetailPage/RoomDetailPage"),
+  2000
+);
+const SignInPage = lazyWithDelay(
+  () => import("../pages/SignInPage/SignInPage"),
+  500
+);
+const SignUpPage = lazyWithDelay(
+  () => import("../pages/SignUpPage/SignUpPage"),
+  500
+);
+
 const useRoutesCustome = () => {
+  const skeletonRef = useRef(null);
+
+  useEffect(() => {
+    if (skeletonRef.current) {
+      skeletonRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, []);
   const routes = useRoutes([
     {
       path: "/",
@@ -15,27 +56,79 @@ const useRoutesCustome = () => {
       children: [
         {
           index: true,
-          element: <IndexPage />,
+          element: (
+            <Suspense
+              fallback={
+                <div className="h-[1500px]">
+                  {" "}
+                  <SkeletonIndexPage />
+                </div>
+              }
+            >
+              <IndexPage />
+            </Suspense>
+          ),
         },
         {
           path: path.listRoomPage,
-          element: <ListRoomPage />,
+          element: (
+            <Suspense
+              fallback={
+                <div className="h-[1500px]">
+                  <SkeletonLeftListRoom />
+                </div>
+              }
+            >
+              <ListRoomPage />
+            </Suspense>
+          ),
         },
         {
           path: path.roomDetail,
-          element: <RoomDetailPage />,
+          element: (
+            <Suspense
+              fallback={
+                <div className="h-[900px]">
+                  <SkeletonDetailPage />
+                </div>
+              }
+            >
+              <RoomDetailPage />
+            </Suspense>
+          ),
         },
       ],
     },
     {
       path: path.signIn,
-      element: <SignInPage />,
+      element: (
+        <Suspense
+          fallback={
+            <div className="h-screen">
+              <Skeleton active />
+            </div>
+          }
+        >
+          <SignInPage />
+        </Suspense>
+      ),
     },
     {
       path: path.signUp,
-      element:<SignUpPage/>
-    }
+      element: (
+        <Suspense
+          fallback={
+            <div className="h-screen">
+              <Skeleton active />
+            </div>
+          }
+        >
+          <SignUpPage />
+        </Suspense>
+      ),
+    },
   ]);
+
   return routes;
 };
 

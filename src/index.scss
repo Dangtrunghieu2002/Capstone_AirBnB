@@ -38,6 +38,18 @@
   }
 }
 
+.signature-card {
+  opacity: 0; /* Khởi tạo opacity là 0 */
+  animation: fadeIn 0.5s forwards; /* Chạy animation */
+  animation-fill-mode: forwards; /* Đảm bảo giữ lại trạng thái cuối cùng */
+  display: inline-block; /* Để hoạt động hiệu quả với animation */
+}
+.skeleton-card {
+  opacity: 1; /* Khởi tạo opacity là 0 */
+  animation: fadeOut forwards; /* Chạy animation *//* Đảm bảo giữ lại trạng thái cuối cùng */
+  display: inline-block; /* Để hoạt động hiệu quả với animation */
+}
+
 .checkbox-wrapper-30 .checkbox {
   --bg: #fff;
   --brdr: #d1d6ee;
@@ -106,6 +118,34 @@
   width: 100%;
 }
 
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    display: block;
+  }
+  99% {
+    opacity: 0;
+    display: block;
+  }
+  100% {
+    display: none; /* Ẩn hoàn toàn */
+    opacity: 0;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    display: none;
+  }
+  99% {
+    display: block; /* Đảm bảo hiển thị trước khi hoàn thành animation */
+    opacity: 1;
+  }
+  100% {
+    display: block;
+    opacity: 1;
+  }
+}
 @keyframes opacityAnimation {
   0% {
     opacity: 0.19049773755656108;

@@ -1,18 +1,35 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { formatDateString } from "../../utils/utils";
 import Signature from "../../components/NavComponent/Signature";
-import Landmark from "../../components/NavComponent/Landmark";
-import Design from "../../components/NavComponent/Design";
-import { getLocationApi } from "../../redux/SliceUser/viTriSlice";
 import SmallCard from "../../components/Card/IndexPageCard/SmallCard";
 import MediumCard from "../../components/Card/IndexPageCard/MediumCard";
-import Pool from "../../components/NavComponent/Pool";
-import Room from "../../components/NavComponent/Room";
-import Play from "../../components/NavComponent/Play";
-import Golf from "../../components/NavComponent/Golf";
-import Kitchen from "../../components/NavComponent/Kitchen";
-import North from "../../components/NavComponent/North";
+import { getLocationApi } from "../../redux/SliceUser/viTriSlice";
+import SkeletionComponentIndex from "../../components/Skeleton/SkeletionIndexPage/SkeletionComponentIndex";
+const lazyWithDelay = (importFunc) => {
+  return lazy(
+    () =>
+      new Promise((resolve) => {
+        setTimeout(() => resolve(importFunc()), 2000); // Delay 2 giây
+      })
+  );
+};
+const Landmark = lazyWithDelay(() =>
+  import("../../components/NavComponent/Landmark")
+);
+const Design = lazyWithDelay(() =>
+  import("../../components/NavComponent/Design")
+);
+const Pool = lazyWithDelay(() => import("../../components/NavComponent/Pool"));
+const Room = lazyWithDelay(() => import("../../components/NavComponent/Room"));
+const Play = lazyWithDelay(() => import("../../components/NavComponent/Play"));
+const Golf = lazyWithDelay(() => import("../../components/NavComponent/Golf"));
+const Kitchen = lazyWithDelay(() =>
+  import("../../components/NavComponent/Kitchen")
+);
+const North = lazyWithDelay(() =>
+  import("../../components/NavComponent/North")
+);
 const IndexPage = () => {
   const dispatch = useDispatch();
   const { locationApi } = useSelector((state) => state.viTriSlice);
@@ -352,7 +369,13 @@ const IndexPage = () => {
             </button>
           )}
         </section>
-        <section className="mt-5">{showActive()}</section>
+        <section className="mt-5">
+          {
+            <Suspense fallback={<SkeletionComponentIndex />}>
+              {showActive()}
+            </Suspense>
+          }
+        </section>
         <section className="mt-10">
           <h2 className="text-3xl font-semibold mb-5">
             Khám phá điểm đến gần đây

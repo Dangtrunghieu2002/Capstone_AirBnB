@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { setLocalStorage } from "../../utils/utils";
 import { getInforUser } from "../../redux/SliceUser/authSlice";
 import { NotificationContext } from "../../App";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { path } from "../../common/path/path";
 const SignInPage = () => {
   const { showNotification } = useContext(NotificationContext);
@@ -40,7 +40,7 @@ const SignInPage = () => {
   return (
     <div className="flex items-center justify-between">
       <div className="flex min-h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm text-center">
           <div className="mb-5 flex justify-center flex-col items-center gap-5">
             <svg
               width={102}
@@ -58,6 +58,7 @@ const SignInPage = () => {
               />
             </svg>
           </div>
+          <h3 className="text-xl text-gray-500 mb-3">Cùng đặt chân vào thế giới Airbnb ngay!</h3>
         </div>
         <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm flex flex-col items-center justify-between gap-5">
           <form onSubmit={handleSubmit} className="space-y-6 w-full">
@@ -107,7 +108,10 @@ const SignInPage = () => {
               <p className="text-xs mt-3">
                 Chúng tôi sẽ gọi điện hoặc nhắn tin cho bạn để xác nhận Email.
                 Có áp dụng phí dữ liệu và phí tin nhắn tiêu chuẩn.{" "}
-                <span className="font-medium underline cursor-pointer"> Chính sách về quyền riêng tư</span>
+                <span className="font-medium underline cursor-pointer">
+                  {" "}
+                  Chính sách về quyền riêng tư
+                </span>
               </p>
             </div>
             <div>
@@ -204,9 +208,12 @@ const SignInPage = () => {
           <div className="mt-2">
             <h3 className="text-sm font-medium">
               Bạn chưa có tài khoản?{" "}
-              <span className="text-[#E51E53] underline cursor-pointer">
+              <Link
+                to={path.signUp}
+                className="text-[#E51E53] underline cursor-pointer"
+              >
                 Đăng ký
-              </span>
+              </Link>
             </h3>
           </div>
         </div>

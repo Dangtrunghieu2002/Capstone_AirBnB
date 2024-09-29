@@ -12,9 +12,12 @@ const authSlice = createSlice({
     getInforUser: (state, actions) => {
       state.inforUser = actions.payload;
     },
+    removeInforUser: (state, actions) => {
+      state.inforUser = null;
+    },
   },
 });
 
-export const { getInforUser } = authSlice.actions;
+export const { getInforUser, removeInforUser } = authSlice.actions;
 
 export default authSlice.reducer;

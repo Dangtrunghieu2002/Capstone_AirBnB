@@ -21,11 +21,13 @@ import { viTriService } from "../../service/viTri.service";
 import useDebounce from "../../hooks/useDebounce";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { path } from "../../common/path/path";
+import { removeInforUser } from "../../redux/SliceUser/authSlice";
 const Header = (props) => {
   const dispatch = useDispatch();
   const { guest, childGuest, babyGuest, startDate, endDate } = useSelector(
     (state) => state.InforBookingSlice
   );
+  const { inforUser } = useSelector((state) => state.authSlice);
   const [isActive, setIsActive] = useState(true);
   const [isFocused, setIsFocused] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -64,10 +66,16 @@ const Header = (props) => {
     throttle(() => {
       if (!scrollOverride) {
         const scrollPosition = window.scrollY;
-        setIsScrollingDown(scrollPosition > 105);
+
+        // Kiểm tra điều kiện cuộn
+        if (scrollPosition > 105 && !isScrollingDown) {
+          setIsScrollingDown(true);
+        } else if (scrollPosition <= 105 && isScrollingDown) {
+          setIsScrollingDown(false);
+        }
       }
-    }, 300),
-    [scrollOverride]
+    }, 100), // Thay đổi delay nếu cần
+    [scrollOverride, isScrollingDown]
   ); // Adjust the throttle delay as needed
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
@@ -1016,6 +1024,71 @@ const Header = (props) => {
       </div>
     );
   };
+  const showNavAvatar = () => {
+    return inforUser ? (
+      <div className="absolute bg-white w-[240px] min-h-[243px] rounded-xl box-shadow-date top-[50px] py-[8px] right-0 cursor-pointer">
+        <Link className="px-4 py-3 hover:bg-gray-100 text-[14px] font-medium block">
+          Tin nhắn
+        </Link>
+        <Link className="px-4 py-3 hover:bg-gray-100 text-[14px] font-medium block">
+          Chuyến đi
+        </Link>
+        <Link className="px-4 py-3 hover:bg-gray-100 text-[14px] font-medium block">
+          Danh sách yêu thích
+        </Link>
+        <hr className="my-[7px]" />
+        <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
+          Cho thuê chỗ ở qua Airbnb
+        </h3>
+        <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
+          Tổ chức trải nghiệm
+        </h3>
+        <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
+          Giới thiệu chủ nhà
+        </h3>
+        <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">Tài khoản</h3>
+        <hr className="my-[7px]" />
+        <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
+          Trung tâm trợ giúp
+        </h3>
+        <h3
+          onClick={() => {
+            localStorage.removeItem("user");
+            dispatch(removeInforUser());
+            window.location.reload();
+          }}
+          className="px-4 py-3 hover:bg-gray-100 text-[14px]"
+        >
+          Đăng xuất
+        </h3>
+      </div>
+    ) : (
+      <div className="absolute bg-white w-[240px] min-h-[243px] rounded-xl box-shadow-date top-[50px] py-[8px] right-0 cursor-pointer">
+        <Link
+          to={path.signIn}
+          className="px-4 py-3 hover:bg-gray-100 text-[14px] font-medium block"
+        >
+          Đăng nhập
+        </Link>
+        <Link
+          to={path.signUp}
+          className="px-4 py-3 hover:bg-gray-100 text-[14px] block"
+        >
+          Đăng ký
+        </Link>
+        <hr className="my-[7px]" />
+        <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
+          Cho thuê chỗ ở qua Airbnb
+        </h3>
+        <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
+          Tổ chức trải nghiệm
+        </h3>
+        <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
+          Trung tâm trợ giúp
+        </h3>
+      </div>
+    );
+  };
   if (windowWidth > 768 && responsiveActive) setResponsiveActive(false);
   useEffect(() => {
     viTriService
@@ -1440,48 +1513,32 @@ const Header = (props) => {
                     </g>
                   </svg>
                 </div>
-                <div className="">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 32 32"
-                    aria-hidden="true"
-                    role="presentation"
-                    focusable="false"
-                    style={{
-                      display: "block",
-                      fill: "currentcolor",
-                    }}
-                    className="size-8 text-gray-500"
+                {inforUser ? (
+                  <div
+                    className="p-4 rounded-full bg-black text-white flex items-center justify-center"
+                    style={{ width: "32px", height: "32px" }}
                   >
-                    <path d="M16 .7C7.56.7.7 7.56.7 16S7.56 31.3 16 31.3 31.3 24.44 31.3 16 24.44.7 16 .7zm0 28c-4.02 0-7.6-1.88-9.93-4.81a12.43 12.43 0 0 1 6.45-4.4A6.5 6.5 0 0 1 9.5 14a6.5 6.5 0 0 1 13 0 6.51 6.51 0 0 1-3.02 5.5 12.42 12.42 0 0 1 6.45 4.4A12.67 12.67 0 0 1 16 28.7z" />
-                  </svg>
-                </div>
-                {isFocusSignIn && (
-                  <div className="absolute bg-white w-[240px] min-h-[243px] rounded-xl box-shadow-date top-[50px] py-[8px] right-0 cursor-pointer">
-                    <Link
-                      to={path.signIn}
-                      className="px-4 py-3 hover:bg-gray-100 text-[14px] font-medium block"
+                    <h3 className="text-sm">{inforUser.user.name.charAt(0)}</h3>
+                  </div>
+                ) : (
+                  <div className="">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 32 32"
+                      aria-hidden="true"
+                      role="presentation"
+                      focusable="false"
+                      style={{
+                        display: "block",
+                        fill: "currentcolor",
+                      }}
+                      className="size-8 text-gray-500"
                     >
-                      Đăng nhập
-                    </Link>
-                    <Link
-                      to={path.signUp}
-                      className="px-4 py-3 hover:bg-gray-100 text-[14px] block"
-                    >
-                      Đăng ký
-                    </Link>
-                    <hr className="my-[7px]" />
-                    <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
-                      Cho thuê chỗ ở qua Airbnb
-                    </h3>
-                    <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
-                      Tổ chức trải nghiệm
-                    </h3>
-                    <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
-                      Trung tâm trợ giúp
-                    </h3>
+                      <path d="M16 .7C7.56.7.7 7.56.7 16S7.56 31.3 16 31.3 31.3 24.44 31.3 16 24.44.7 16 .7zm0 28c-4.02 0-7.6-1.88-9.93-4.81a12.43 12.43 0 0 1 6.45-4.4A6.5 6.5 0 0 1 9.5 14a6.5 6.5 0 0 1 13 0 6.51 6.51 0 0 1-3.02 5.5 12.42 12.42 0 0 1 6.45 4.4A12.67 12.67 0 0 1 16 28.7z" />
+                    </svg>
                   </div>
                 )}
+                {isFocusSignIn && showNavAvatar()}
               </div>
             </div>
           </div>

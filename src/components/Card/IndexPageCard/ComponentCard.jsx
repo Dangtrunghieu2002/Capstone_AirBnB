@@ -1,9 +1,12 @@
 import React from "react";
 
-const ComponentCard = ({ item }) => {
+const ComponentCard = ({ item,delay }) => {
   console.log(item);
   return (
-    <div>
+    <div
+      className={`relative signature-card`}
+      style={{ animationDelay: `${delay}s` }}
+    >
       <div className="h-[256px] relative">
         <img
           src={item["HinhAnh-src"]}
@@ -33,7 +36,9 @@ const ComponentCard = ({ item }) => {
       </div>
       <div className="mt-2">
         <div className="flex items-center justify-between">
-          <h3 className="text-[15px] font-medium w-[75%] text-ellipsis whitespace-nowrap overflow-hidden">{item["DiaDiem"]}</h3>
+          <h3 className="text-[15px] font-medium w-[75%] text-ellipsis whitespace-nowrap overflow-hidden">
+            {item["DiaDiem"]}
+          </h3>
           {item["DanhGia"] !== "" && (
             <div className="flex items-center gap-1">
               <div>

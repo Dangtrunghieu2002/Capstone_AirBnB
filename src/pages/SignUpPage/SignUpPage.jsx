@@ -1,9 +1,47 @@
-import React from "react";
+import React, { useRef, useContext } from "react";
 import { Select, Space, DatePicker } from "antd";
+import { useFormik } from "formik";
+import { authService } from "../../service/auth.service";
+import { NotificationContext } from "../../App";
+import { Link, useNavigate } from "react-router-dom";
+import { path } from "../../common/path/path";
 const SignUpPage = () => {
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
+  const formRef = useRef(null);
+  const { showNotification } = useContext(NotificationContext);
+  const navigate = useNavigate();
+  const { handleChange, handleSubmit, values, setFieldValue } = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      phone: "",
+      birthday: "",
+      gender: true,
+      role: "USER",
+    },
+    onSubmit: (values) => {
+      authService
+        .signUp(values)
+        .then((res) => {
+          showNotification("Đăng ký thành công", "success", 1000);
+          setTimeout(() => {
+            navigate(path.signIn);
+          }, 1500);
+          console.log(res);
+        })
+        .catch((err) => {
+          showNotification("Có lỗi xảy ra vui lòng thử lại", "error", 2000);
+          console.log(err);
+        });
+      console.log(values);
+    },
+  });
+  const handleExternalSubmit = () => {
+    if (formRef.current) {
+      formRef.current.dispatchEvent(new Event("submit", { bubbles: true }));
+    }
   };
+
   return (
     <div className="flex relative justify-center items-center h-screen bg-[url('./src/assets/img/wp10784364-airbnb-wallpapers.jpg')] bg-cover bg-top">
       <div className="absolute inset-0 bg-black opacity-50" />
@@ -30,12 +68,12 @@ const SignUpPage = () => {
         </h3>
         <p className="text-[14px] text-gray-500 mb-7">
           Hãy bắt đầu ngay nếu bạn đã có tài khoản!{" "}
-          <span className="text-red-400 cursor-pointer underline">
+          <Link to={path.signIn} className="text-red-400 cursor-pointer underline">
             Đăng nhập
-          </span>
+          </Link>
         </p>
         <div className="w-full mb-5">
-          <form>
+          <form ref={formRef} onSubmit={handleSubmit}>
             <div className="grid grid-cols-2 gap-5">
               <div>
                 <label
@@ -48,6 +86,8 @@ const SignUpPage = () => {
                   <input
                     id="email"
                     name="email"
+                    onChange={handleChange}
+                    value={values.email}
                     type="email"
                     className="block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6 outline-none px-3"
                   />
@@ -55,16 +95,18 @@ const SignUpPage = () => {
               </div>
               <div>
                 <label
-                  htmlFor="Mật khẩu"
+                  htmlFor="Họ tên"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   Họ tên
                 </label>
                 <div className="mt-2">
                   <input
-                    id="email"
-                    name="email"
+                    id="name"
+                    name="name"
                     type="text"
+                    onChange={handleChange}
+                    value={values.name}
                     className="block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6 outline-none px-3"
                   />
                 </div>
@@ -78,8 +120,10 @@ const SignUpPage = () => {
                 </label>
                 <div className="mt-2">
                   <input
-                    id="email"
-                    name="email"
+                    id="password"
+                    name="password"
+                    onChange={handleChange}
+                    value={values.password}
                     type="password"
                     className="block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6 outline-none px-3"
                   />
@@ -87,7 +131,42 @@ const SignUpPage = () => {
               </div>
               <div>
                 <label
-                  htmlFor="Mật khẩu"
+                  htmlFor="Số điện thoại"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Số điện thoại
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="phone"
+                    name="phone"
+                    onChange={handleChange}
+                    value={values.phone}
+                    type="text"
+                    className="block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6 outline-none px-3"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="Ngày sinh"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Ngày sinh
+                </label>
+                <div className="mt-2">
+                  <DatePicker
+                    id="birthday"
+                    name="birthday"
+                    onChange={(value) => setFieldValue("birthday", value)}
+                    value={values.birthday}
+                    className="w-full h-full"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="Giới tính"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   Giới tính
@@ -96,7 +175,12 @@ const SignUpPage = () => {
                   <Select
                     className="w-full"
                     defaultValue="Male"
-                    onChange={handleChange}
+                    id="gender"
+                    name="gender"
+                    onChange={(value) => {
+                      setFieldValue("gender", value);
+                    }}
+                    value={values.gender}
                     options={[
                       {
                         value: true,
@@ -107,33 +191,6 @@ const SignUpPage = () => {
                         label: "Female",
                       },
                     ]}
-                  />
-                </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="Mật khẩu"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Ngày sinh
-                </label>
-                <div className="mt-2">
-                  <DatePicker className="w-full h-full" />
-                </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="Mật khẩu"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Số điện thoại
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="email"
-                    name="email"
-                    type="text"
-                    className="block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6 outline-none px-3"
                   />
                 </div>
               </div>
@@ -266,7 +323,11 @@ const SignUpPage = () => {
           </div>
         </div>
         <div className="w-full">
-          <button className="py-3 px-5 w-full text-center bg-[#E11D48] text-white font-medium rounded-lg">
+          <button
+            type="button"
+            onClick={handleExternalSubmit}
+            className="py-3 px-5 w-full text-center bg-[#E11D48] text-white font-medium rounded-lg"
+          >
             Tạo tài khoản
           </button>
         </div>

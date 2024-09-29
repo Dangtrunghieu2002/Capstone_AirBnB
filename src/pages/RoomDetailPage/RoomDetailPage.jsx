@@ -16,7 +16,6 @@ const RoomDetailPage = () => {
   const [mx, setMx] = useState(initialMx); // Giá trị ban đầu của mx
   const [room, setRoom] = useState();
   const dispatch = useDispatch();
-  console.log(room);
   const handleResize = () => {
     const newWidth = window.innerWidth;
     const newMx = Math.max(
