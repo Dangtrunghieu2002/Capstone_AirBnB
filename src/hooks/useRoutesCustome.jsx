@@ -9,6 +9,7 @@ import SkeletonLeftListRoom from "../components/Skeleton/SkeletonListRoomPage/Sk
 import SkeletonDetailPage from "../components/Skeleton/SkeletonDetailPage/SkeletonDetailPage";
 import InforUserPage from "../pages/InforUserPage/InforUserPage";
 import PageNotFound from "../pages/PageNotFound/PageNotFound";
+import { getLocalStorage } from "../utils/utils";
 
 // Hàm helper để trì hoãn import
 const lazyWithDelay = (importFunc, delay) => {
@@ -101,7 +102,11 @@ const useRoutesCustome = () => {
         },
         {
           path: path.inforUser,
-          element: <InforUserPage />,
+          element: getLocalStorage("user") ? (
+            <InforUserPage />
+          ) : (
+            <PageNotFound />
+          ),
         },
       ],
     },

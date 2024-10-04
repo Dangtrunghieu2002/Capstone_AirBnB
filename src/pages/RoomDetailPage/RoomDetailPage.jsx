@@ -53,7 +53,7 @@ const RoomDetailPage = () => {
           marginLeft: mx,
           marginRight: mx,
         }}
-        className="px-10 xl:px-20"
+        className="px-10 xl:px-20 mt-20 lg:mt-0"
       >
         <div className="hidden pt-[24px] md:flex items-center justify-between">
           <h3 className="text-3xl font-medium">{room?.tenPhong}</h3>
