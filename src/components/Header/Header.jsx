@@ -22,6 +22,7 @@ import useDebounce from "../../hooks/useDebounce";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { path } from "../../common/path/path";
 import { removeInforUser } from "../../redux/SliceUser/authSlice";
+import { getRoomBooking } from "../../redux/SliceUser/phongDaDatSlice";
 const Header = (props) => {
   const dispatch = useDispatch();
   const { guest, childGuest, babyGuest, startDate, endDate } = useSelector(
@@ -45,7 +46,8 @@ const Header = (props) => {
   const [isSelect, setIsSelect] = useState(false);
   const [isActiveNavRoom, setIsActiveNavRoom] = useState(false);
   const [isActiveNavPrice, setIsActiveNavPrice] = useState(false);
-  const initialMx = 312; // Giá trị ban đầu của mx
+  const initialMx = searchParam.get("id") ? 232 : 312;
+  const devideMx = searchParam.get("id") ? 47 : 63; // Giá trị ban đầu của mx
   const [mx, setMx] = useState(initialMx);
   const [isFocusSignIn, setIsFocusSignIn] = useState(false); // Giá trị ban đầu của mx
   const debouncedValue = useDebounce(inputValue, 0);
@@ -54,14 +56,16 @@ const Header = (props) => {
   const containerRef = useRef(null);
   const signInRef = useRef(null);
   const navigate = useNavigate();
+  console.log(mx);
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
     key: "selection",
   };
-  const marginStyle = searchParam.get("maPhong")
-    ? { marginLeft: mx, marginRight: mx }
-    : { margin: "0" }; // Giá trị mặc định nếu không có maPhong
+  const marginStyle =
+    searchParam.get("maPhong") || searchParam.get("id")
+      ? { marginLeft: mx, marginRight: mx }
+      : { margin: "0" }; // Giá trị mặc định nếu không có maPhong
   const throttledScrollHandler = useCallback(
     throttle(() => {
       if (!scrollOverride) {
@@ -1027,15 +1031,15 @@ const Header = (props) => {
   const showNavAvatar = () => {
     return inforUser ? (
       <div className="absolute bg-white w-[240px] min-h-[243px] rounded-xl box-shadow-date top-[50px] py-[8px] right-0 cursor-pointer">
-        <Link className="px-4 py-3 hover:bg-gray-100 text-[14px] font-medium block">
+        <div className="px-4 py-3 hover:bg-gray-100 text-[14px] font-medium block">
           Tin nhắn
-        </Link>
-        <Link className="px-4 py-3 hover:bg-gray-100 text-[14px] font-medium block">
+        </div>
+        <div className="px-4 py-3 hover:bg-gray-100 text-[14px] font-medium block">
           Chuyến đi
-        </Link>
-        <Link className="px-4 py-3 hover:bg-gray-100 text-[14px] font-medium block">
+        </div>
+        <div className="px-4 py-3 hover:bg-gray-100 text-[14px] font-medium block">
           Danh sách yêu thích
-        </Link>
+        </div>
         <hr className="my-[7px]" />
         <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
           Cho thuê chỗ ở qua Airbnb
@@ -1046,7 +1050,13 @@ const Header = (props) => {
         <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
           Giới thiệu chủ nhà
         </h3>
-        <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">Tài khoản</h3>
+        <Link
+          target="blank"
+          to={`${path.inforUser}?id=${inforUser.user.id}`}
+          className="px-4 py-3 hover:bg-gray-100 text-[14px] block"
+        >
+          Tài khoản
+        </Link>
         <hr className="my-[7px]" />
         <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
           Trung tâm trợ giúp
@@ -1055,6 +1065,7 @@ const Header = (props) => {
           onClick={() => {
             localStorage.removeItem("user");
             dispatch(removeInforUser());
+            navigate(path.homePage);
             window.location.reload();
           }}
           className="px-4 py-3 hover:bg-gray-100 text-[14px]"
@@ -1117,22 +1128,23 @@ const Header = (props) => {
     }
   }, [searchParam]);
   useEffect(() => {
-    const handleResize = () => {
+    const handleResize1 = () => {
       const newWidth = window.innerWidth;
       const newMx = Math.max(
         0,
-        initialMx - Math.floor(((initialMx / 63) * (1924 - newWidth)) / 10)
+        initialMx -
+          Math.floor(((initialMx / devideMx) * (1924 - newWidth)) / 10)
       ); // Giảm mx
       setMx(newMx);
     };
 
     // Thêm sự kiện lắng nghe resize
-    window.addEventListener("resize", handleResize);
-    handleResize(); // Gọi lần đầu để thiết lập giá trị đúng
+    window.addEventListener("resize", handleResize1);
+    handleResize1(); // Gọi lần đầu để thiết lập giá trị đúng
 
     // Cleanup khi component bị gỡ bỏ
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", handleResize1);
     };
   }, [initialMx]);
   useEffect(() => {
@@ -1153,6 +1165,9 @@ const Header = (props) => {
     window.addEventListener("mousedown", handleBlurSignIn);
 
     return () => window.removeEventListener("mousedown", handleBlurSignIn);
+  }, []);
+  useEffect(() => {
+    dispatch(getRoomBooking(inforUser?.user.id));
   }, []);
   return (
     <>
@@ -1364,7 +1379,11 @@ const Header = (props) => {
                 </svg>
               </div>
             </Link>
-            <div className="pl-[20px]">
+            <div
+              className={`${
+                searchParam.get("id") ? "hidden" : "block"
+              } pl-[20px]`}
+            >
               <animated.div
                 style={{ ...springProps2 }}
                 className={`1 w-[90%] lg:w-full ${
@@ -1514,12 +1533,22 @@ const Header = (props) => {
                   </svg>
                 </div>
                 {inforUser ? (
-                  <div
-                    className="p-4 rounded-full bg-black text-white flex items-center justify-center"
-                    style={{ width: "32px", height: "32px" }}
-                  >
-                    <h3 className="text-sm">{inforUser.user.name.charAt(0)}</h3>
-                  </div>
+                  inforUser.user.avatar ? (
+                    <img
+                      src={inforUser.user.avatar}
+                      alt=""
+                      className="w-[36px] h-[36px] border rounded-full"
+                    />
+                  ) : (
+                    <div
+                      className="p-4 rounded-full bg-black text-white flex items-center justify-center"
+                      style={{ width: "32px", height: "32px" }}
+                    >
+                      <h3 className="text-sm">
+                        {inforUser.user.name.charAt(0)}
+                      </h3>
+                    </div>
+                  )
                 ) : (
                   <div className="">
                     <svg
@@ -1602,7 +1631,7 @@ const Header = (props) => {
           </div>
         </header>
       </animated.div>
-      <div className="md:hidden mx-7 mt-5">
+      <div className="md:hidden fixed top-0 z-[10] w-[91%] bg-white h-[80px] mx-7 py-5">
         <div
           onClick={() => setResponsiveActive(true)}
           className="py-2 px-5 rounded-full box-shadow-header"

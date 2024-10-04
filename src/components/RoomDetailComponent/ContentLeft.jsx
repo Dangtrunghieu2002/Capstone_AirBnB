@@ -11,15 +11,18 @@ const ContentLeft = ({ room }) => {
   return (
     <div>
       <div className="py-[32px]">
-        <h3 className="text-2xl font-medium">
+        <h3 className="text-2xl md:text-3xl block md:hidden font-medium mb-3">
+          {room?.tenPhong}
+        </h3>
+        <h3 className="text-lg md:text-2xl font-medium">
           Toàn bộ biệt thự tại Thành phố {location.tinhThanh}, Việt Nam
         </h3>
-        <p className="text-[16px]">
+        <p className="text-[14px] md:text-[16px]">
           {room?.khach} khách · {room?.phongNgu} phòng ngủ · {room?.giuong}{" "}
           giường · {room?.phongTam} phòng tắm và 1 phòng vệ sinh cơ bản
         </p>
       </div>
-      <div className="py-[22px] px-[26px] flex items-center justify-around gap-[24px] rounded-[12px] border mb-5">
+      <div className="py-[22px] px-[26px] flex items-center justify-around gap-[14px] lg:gap-[24px] rounded-[12px] border mb-5">
         <div className="flex items-center gap-[24px]">
           <div className="flex justify-center items-center gap-[2px] text-center">
             <div>
@@ -282,7 +285,7 @@ const ContentLeft = ({ room }) => {
         </div>
         <div className="w-[1px] h-[40px] bg-gray-300"></div>
         <div className="flex flex-col gap-[3px] justify-end items-center">
-          <p className="text-xl font-medium">15</p>
+          <p className="text-lg lg:text-xl font-medium">15</p>
           <h3 className="text-xs underline whitespace-nowrap">đánh giá</h3>
         </div>
       </div>
@@ -453,11 +456,11 @@ const ContentLeft = ({ room }) => {
         <h3 className="pb-[24px] text-xl font-medium">
           Nơi này có những gì cho bạn
         </h3>
-        <div className="flex justify-start items-stretch flex-wrap">
+        <div className="block sm:flex justify-start items-stretch flex-wrap">
           {room?.banLa && (
-            <div className="px-[8px] w-[50%]">
+            <div className="px-[8px] w-full sm:w-[50%]">
               <div className="pb-[16px] flex items-center justify-end flex-row-reverse">
-                <div>Bàn là</div>
+                <div className="">Bàn là</div>
                 <div className="mr-[16px]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -479,9 +482,9 @@ const ContentLeft = ({ room }) => {
             </div>
           )}
           {room?.bep && (
-            <div className="px-[8px] w-[50%]">
+            <div className="px-[8px] w-full sm:w-[50%]">
               <div className="pb-[16px] flex items-center justify-end flex-row-reverse">
-                <div>Bếp</div>
+                <div className="">Bếp</div>
                 <div className="mr-[16px]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -503,9 +506,9 @@ const ContentLeft = ({ room }) => {
             </div>
           )}
           {room?.dieuHoa && (
-            <div className="px-[8px] w-[50%]">
+            <div className="px-[8px] w-full sm:w-[50%]">
               <div className="pb-[16px] flex items-center justify-end flex-row-reverse">
-                <div>Hệ thống điều hòa trung tâm</div>
+                <div className="">Hệ thống điều hòa trung tâm</div>
                 <div className="mr-[16px]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -527,9 +530,9 @@ const ContentLeft = ({ room }) => {
             </div>
           )}
           {room?.doXe && (
-            <div className="px-[8px] w-[50%]">
+            <div className="px-[8px] w-full sm:w-[50%]">
               <div className="pb-[16px] flex items-center justify-end flex-row-reverse">
-                <div>Chỗ đỗ xe miễn phí tại nơi ở</div>
+                <div className="">Chỗ đỗ xe miễn phí tại nơi ở</div>
                 <div className="mr-[16px]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -551,9 +554,9 @@ const ContentLeft = ({ room }) => {
             </div>
           )}
           {room?.hoBoi && (
-            <div className="px-[8px] w-[50%]">
+            <div className="px-[8px] w-full sm:w-[50%]">
               <div className="pb-[16px] flex items-center justify-end flex-row-reverse">
-                <div>Hồ bơi riêng trong nhà</div>
+                <div className="">Hồ bơi riêng trong nhà</div>
                 <div className="mr-[16px]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -575,9 +578,9 @@ const ContentLeft = ({ room }) => {
             </div>
           )}
           {room?.mayGiat && (
-            <div className="px-[8px] w-[50%]">
+            <div className="px-[8px] w-full sm:w-[50%]">
               <div className="pb-[16px] flex items-center justify-end flex-row-reverse">
-                <div>Máy giặt phí Miễn phí – Trong toà nhà</div>
+                <div className="">Máy giặt phí Miễn phí – Trong toà nhà</div>
                 <div className="mr-[16px]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -599,9 +602,9 @@ const ContentLeft = ({ room }) => {
             </div>
           )}
           {room?.tivi && (
-            <div className="px-[8px] w-[50%]">
+            <div className="px-[8px] w-full sm:w-[50%]">
               <div className="pb-[16px] flex items-center justify-end flex-row-reverse">
-                <div>
+                <div className="">
                   HDTV với Netflix, Amazon Prime Video, Apple TV, Chromecast,
                   Disney+
                 </div>
@@ -628,7 +631,9 @@ const ContentLeft = ({ room }) => {
           {room?.wifi && (
             <div className="px-[8px] w-[50%]">
               <div className="pb-[16px] flex items-center justify-end flex-row-reverse">
-                <div>Wifi</div>
+                <div className="whitespace-nowrap sm:whitespace-normal">
+                  Wifi
+                </div>
                 <div className="mr-[16px]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -664,7 +669,7 @@ const ContentLeft = ({ room }) => {
           {formatDateString(startDate, false)} -{" "}
           {formatDateString(endDate, false)}
         </p>
-        <DateRangPicker />
+        <DateRangPicker className="custom-calender" />
       </div>
     </div>
   );

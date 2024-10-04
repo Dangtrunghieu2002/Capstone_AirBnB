@@ -238,6 +238,7 @@ const IndexPage = () => {
   const scrollAmount = itemWidth * itemsToScroll; // Calculate the scroll amount
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
+  const [shadowNav, setShadowNav] = useState(false);
   const checkScrollPosition = () => {
     if (containerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
@@ -294,31 +295,73 @@ const IndexPage = () => {
   useEffect(() => {
     dispatch(getLocationApi());
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = scrollY;
+      setShadowNav(scrollPosition > 105);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   return (
     <>
-      <div className="mt-4 px-10 xl:px-20">
-        <section className="relative">
-          {!isAtStart && (
-            <button
-              onClick={scrollLeft}
-              className="absolute left-[-20px] z-10 top-1/2 transform -translate-y-1/2 bg-[#FFFFFF] border_nav p-[9px] rounded-full"
+      <div className="">
+        {/* <section className="sticky top-[65px] z-20">
+          <div className="">
+            <div
+              ref={containerRef}
+              className="flex bg-[#ffffff] items-center gap-5 lg:gap-10 overflow-hidden w-[99%]"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                aria-hidden="true"
-                role="presentation"
-                focusable="false"
-                style={{
-                  display: "block",
-                  height: 12,
-                  width: 12,
-                  fill: "currentcolor",
-                }}
+              {data.map((item, index) => (
+                <div
+                  onClick={() => {
+                    setIsActive(index);
+                  }}
+                  key={index}
+                  className={`cursor-pointer flex-shrink-0 flex flex-col gap-[7px] items-center justify-center border-b-2 ${
+                    isActive == index
+                      ? "border-black"
+                      : "border-white hover:border-gray-200 opacity-70 hover:opacity-100 "
+                  } py-3`}
+                >
+                  <div className="max-h-[48px]">
+                    <img src={item.img} className="w-[24px]" alt="" />
+                  </div>
+                  <h3 className="font-medium text-[12px]">{item.desc}</h3>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section> */}
+        <section
+          className={`sticky ${
+            shadowNav ? "shadow-md" : ""
+          } mt-4 px-10 xl:px-20 top-[80px] bg-white z-20`}
+        >
+          {!isAtStart && (
+            <div className="w-[40px] bgImg-arrow-right absolute left-[25px] lg:left-[65px] z-10 top-1/2 transform -translate-y-1/2">
+              <button
+                onClick={scrollLeft}
+                className=" bg-[#FFFFFF] border_nav p-[9px] rounded-full"
               >
-                <path d="m10.55.3 1.42 1.4L5.67 8l6.3 6.3-1.42 1.4-6.59-6.58a1.58 1.58 0 0 1-.1-2.13l.1-.11z" />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  aria-hidden="true"
+                  role="presentation"
+                  focusable="false"
+                  style={{
+                    display: "block",
+                    height: 12,
+                    width: 12,
+                    fill: "currentcolor",
+                  }}
+                >
+                  <path d="m10.55.3 1.42 1.4L5.67 8l6.3 6.3-1.42 1.4-6.59-6.58a1.58 1.58 0 0 1-.1-2.13l.1-.11z" />
+                </svg>
+              </button>
+            </div>
           )}
           <div className="">
             <div
@@ -345,11 +388,10 @@ const IndexPage = () => {
               ))}
             </div>
           </div>
-
           {!isAtEnd && (
             <button
               onClick={scrollRight}
-              className="absolute right-[-40px] lg:right-[-20px] top-1/2 transform -translate-y-1/2 bg-[#FFFFFF] p-[9px] border_nav rounded-full"
+              className="absolute right-[10px] lg:right-[65px] top-1/2 transform -translate-y-1/2 bg-[#FFFFFF] p-[9px] border_nav rounded-full"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -369,41 +411,47 @@ const IndexPage = () => {
             </button>
           )}
         </section>
-        <section className="mt-5">
-          {
-            <Suspense fallback={<SkeletionComponentIndex />}>
-              {showActive()}
-            </Suspense>
-          }
-        </section>
-        <section className="mt-10">
-          <h2 className="text-3xl font-semibold mb-5">
-            Khám phá điểm đến gần đây
-          </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
-            {locationApi.map((item, index) => {
-              const { hinhAnh, tinhThanh, tenViTri, id } = item;
-              return (
-                <SmallCard
-                  id={id}
-                  hinhAnh={hinhAnh}
-                  tinhThanh={tinhThanh}
-                  tenViTri={tenViTri}
-                />
-              );
-            })}
-          </div>
-        </section>
-        <section className="mt-10">
-          <h2 className="text-3xl font-semibold">Ở bất cứ đâu</h2>
-          <div className="flex space-x-3 overflow-scroll scrollbar-hide justify-between">
-            {cardData.map((item, index) => {
-              return (
-                <MediumCard key={item.img} img={item.img} title={item.title} />
-              );
-            })}
-          </div>
-        </section>
+        <div className="mt-4 px-10 xl:px-20">
+          <section className="mt-5">
+            {
+              <Suspense fallback={<SkeletionComponentIndex />}>
+                {showActive()}
+              </Suspense>
+            }
+          </section>
+          <section className="mt-10">
+            <h2 className="text-3xl font-semibold mb-5">
+              Khám phá điểm đến gần đây
+            </h2>
+            <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+              {locationApi.map((item, index) => {
+                const { hinhAnh, tinhThanh, tenViTri, id } = item;
+                return (
+                  <SmallCard
+                    id={id}
+                    hinhAnh={hinhAnh}
+                    tinhThanh={tinhThanh}
+                    tenViTri={tenViTri}
+                  />
+                );
+              })}
+            </div>
+          </section>
+          <section className="mt-10">
+            <h2 className="text-3xl font-semibold">Ở bất cứ đâu</h2>
+            <div className="flex space-x-3 overflow-scroll scrollbar-hide justify-between">
+              {cardData.map((item, index) => {
+                return (
+                  <MediumCard
+                    key={item.img}
+                    img={item.img}
+                    title={item.title}
+                  />
+                );
+              })}
+            </div>
+          </section>
+        </div>
       </div>
     </>
   );

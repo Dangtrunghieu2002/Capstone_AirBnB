@@ -47,7 +47,7 @@ const RoomDetailPage = () => {
       });
   }, [searchParam]);
   return (
-    <>
+    <div className="relative">
       <div
         style={{
           marginLeft: mx,
@@ -55,7 +55,7 @@ const RoomDetailPage = () => {
         }}
         className="px-10 xl:px-20"
       >
-        <div className="pt-[24px] flex items-center justify-between">
+        <div className="hidden pt-[24px] md:flex items-center justify-between">
           <h3 className="text-3xl font-medium">{room?.tenPhong}</h3>
           <div className="flex items-center gap-1">
             <div className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg">
@@ -115,26 +115,26 @@ const RoomDetailPage = () => {
               <img
                 src={room?.hinhAnh}
                 alt=""
-                className="rounded-xl w-full h-full object-contain hover:brightness-75"
+                className="rounded-xl w-full h-[450px] md:h-full object-cover hover:brightness-75"
               />
             </div>
           </div>
         </div>
-        <div className="flex border-b items-start">
-          <div className="w-[58.333333333333336%]">
+        <div className="block md:flex border-b items-start">
+          <div className="w-full md:w-[58.333333333333336%]">
             <ContentLeft room={room} />
           </div>
-          <div className="w-[33.33333333333333%] ml-[8.333333333333332%] flex-grow sticky top-[100px]">
+          <div className="hidden md:block w-[33.33333333333333%] ml-[8.333333333333332%] flex-grow sticky top-[100px]">
             <ContentRight room={room} />
           </div>
         </div>
-        <div className="py-[48px] border-b">
+        <div className="pt-[32px] pb-[24px] md:py-[40px] border-b">
           <RatingLayout maPhong={searchParam.get("maPhong")} />
         </div>
-        <div className="py-[48px] border-b">
+        <div className="pt-[32px] pb-[24px] md:py-[40px] border-b">
           <InforOwner />
         </div>
-        <div className="pt-[48px]">
+        <div className="pt-[40px]">
           <GetToKnow />
         </div>
       </div>
@@ -191,7 +191,27 @@ const RoomDetailPage = () => {
           </div>
         </div>
       </div>
-    </>
+      <div className="sticky bottom-0 bg-white py-[16px] border-t px-[24px] flex items-center justify-between z-[20]  md:hidden w-full">
+        <div>
+          <div className="text-gray-500 text-sm">
+            <span className="text-lg font-medium text-black">
+              ${room?.giaTien}
+            </span>{" "}
+            / đêm
+          </div>
+          <div>
+            <p className="underline font-medium text-[14px]">
+              Ngày 03 - Ngày 08 tháng 10
+            </p>
+          </div>
+        </div>
+        <div>
+          <button className="px-[35px] py-[14px] bg-[#ED2655] font-medium text-white rounded-lg">
+            Đặt phòng
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 

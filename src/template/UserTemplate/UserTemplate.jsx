@@ -11,7 +11,7 @@ const UserTemplate = () => {
         <main>
           <Outlet />
         </main>
-        <Footer/>
+        <Footer />
       </div>
     </>
   );

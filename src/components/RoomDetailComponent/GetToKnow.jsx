@@ -4,8 +4,8 @@ const GetToKnow = () => {
   return (
     <div>
       <h3 className="text-[22px] font-medium pb-[24px]">Những điều cần biết</h3>
-      <div className="flex justify-start flex-wrap items-stretch">
-        <div className="px-[8px] w-[33.3333333333%]">
+      <div className="block md:flex space-y-5 md:space-y-0 justify-start flex-wrap items-stretch">
+        <div className="px-[8px] w-full md:w-[33.3333333333%] border-b pb-5 md:border-none md:pb-0">
           <div className="mr-[32px]">
             <div className="mb-[12px] font-medium">Nội quy nhà</div>
             <div className="mb-[12px] text-gray-500">Nhận phòng sau 15:00</div>
@@ -41,7 +41,7 @@ const GetToKnow = () => {
             </div>
           </div>
         </div>
-        <div className="px-[8px] w-[33.3333333333%]">
+        <div className="px-[8px] w-full md:w-[33.3333333333%] border-b pb-5 md:border-none md:pb-0">
           <div className="mr-[32px]">
             <div className="mb-[12px] font-medium">An toàn và chỗ ở</div>
             <div className="mb-[12px] text-gray-500">Máy phát hiện khí CO</div>
@@ -76,7 +76,7 @@ const GetToKnow = () => {
             </div>
           </div>
         </div>
-        <div className="px-[8px] w-[33.3333333333%]">
+        <div className="px-[8px] w-full md:w-[33.3333333333%] border-b pb-5 md:border-none md:pb-0">
           <div className="mr-[32px]">
             <div className="mb-[12px] font-medium">Chính sách hủy</div>
             <div className="mb-[12px] text-gray-500">

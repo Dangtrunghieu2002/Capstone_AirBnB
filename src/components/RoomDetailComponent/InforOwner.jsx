@@ -6,7 +6,7 @@ const InforOwner = () => {
       <div className="mb-[24px]">
         <h2 className="text-[22px] font-medium">Gặp gỡ Chủ nhà</h2>
       </div>
-      <div className="flex items-center gap-[64px] w-full">
+      <div className="block md:flex items-center space-y-10 md:space-y-0 gap-[40px] lg:gap-[64px] w-full">
         <div className="flex flex-col items-start justify-center gap-[32px] min-w-[395px]">
           <div className="max-w-[380px] min-h-[230px] w-full flex items-center gap-[26px] rounded-[24px] box-shadow-date">
             <div className="flex flex-col gap-3 justify-between items-center flex-grow min-h-full">

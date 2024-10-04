@@ -8,7 +8,7 @@ const Landmark = () => {
     const loadCards = async () => {
       for (let i = 0; i < KhungCanhTuyetVoi.length; i++) {
         setLoadedCards((prev) => [...prev, i]); // Thêm card vào danh sách đã tải
-        await new Promise((resolve) => setTimeout(resolve, 50)); // Đợi 0.2 giây
+        await new Promise((resolve) => setTimeout(resolve, 70)); // Đợi 0.2 giây
       }
     };
 

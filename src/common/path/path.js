@@ -3,6 +3,7 @@ export const path = {
   pageNotFound: "*",
   listRoomPage: "/list-room",
   roomDetail: "/room-detail",
+  inforUser: "/infor-user",
   signIn: "/sign-in",
-  signUp:"/sign-up"
+  signUp:"/sign-up",
 };

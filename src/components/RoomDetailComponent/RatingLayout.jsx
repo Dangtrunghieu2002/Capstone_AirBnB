@@ -69,15 +69,17 @@ const RatingLayout = ({ maPhong }) => {
     <div>
       <div className="mt-[16px] mb-[64px] flex flex-col justify-center items-center">
         <div className="flex items-start justify-between gap-[6px]">
-          <div className="w-auto h-[132px]">
+          <div className="w-auto h-[100px] md:h-[132px]">
             <img
               src="https://a0.muscache.com/im/pictures/airbnb-platform-assets/AirbnbPlatformAssets-GuestFavorite/original/78b7687c-5acf-4ef8-a5ea-eda732ae3b2f.png"
               alt=""
               className="w-full h-full"
             />
           </div>
-          <div className="text-[100px] font-medium leading-[80px]">5,0</div>
-          <div className="w-auto h-[132px]">
+          <div className="text-[70px] md:text-[100px] font-medium leading-[70px] md:leading-[80px]">
+            5,0
+          </div>
+          <div className="w-auto h-[100px] md:h-[132px]">
             <img
               src="https://a0.muscache.com/im/pictures/airbnb-platform-assets/AirbnbPlatformAssets-GuestFavorite/original/b4005b30-79ff-4287-860c-67829ecd7412.png"
               alt=""
@@ -88,14 +90,14 @@ const RatingLayout = ({ maPhong }) => {
         <div className="pb-[8px] text-[1.375rem] leading-[1.625rem] font-[500]">
           Được khách yêu thích
         </div>
-        <span className="text-[18px] text-gray-500 w-[34%] text-center leading-6">
+        <span className="text-[14px] lg:text-[18px] text-gray-500 w-[71%] sm:w-[47%] md:w-[34%] text-center leading-6">
           Một trong những ngôi nhà được yêu thích nhất trên Airbnb dựa trên điểm
           xếp hạng, đánh giá và độ tin cậy
         </span>
       </div>
       <div className="mb-[40px] pb-[40px] border-b">
-        <div className="flex items-stretch h-[112px]">
-          <div className="w-[138px] mr-[32px]">
+        <div className="flex items-stretch h-[112px] overflow-hidden">
+          <div className="w-[138px] mr-[32px] flex-shrink-0">
             <h3 className="text-[14px] font-medium mb-1">Xếp hạng tổng thể</h3>
             <div className="flex flex-col gap-[2px]">
               <div className="flex items-center gap-[8px]">
@@ -289,8 +291,8 @@ const RatingLayout = ({ maPhong }) => {
         </div>
       </div>
       <div className="pb-[48px] border-b">
-        <div className="flex flex-wrap justify-start items-stretch">
-          <div className="px-[8px] mr-[8.33333%] w-[41.6667%] mb-[40px]">
+        <div className="block md:flex flex-wrap justify-start items-stretch">
+          <div className="px-[8px] mr-[8.33333%] w-full md:w-[41.6667%] mb-[40px]">
             <div className="flex items-center gap-5 mb-3    ">
               <div className="">
                 <img
@@ -408,7 +410,7 @@ const RatingLayout = ({ maPhong }) => {
             </div>
             <div className="underline font-medium">Hiển thị thêm</div>
           </div>
-          <div className="px-[8px] mr-[8.33333%] w-[41.6667%] mb-[40px]">
+          <div className="px-[8px] mr-[8.33333%] w-full md:w-[41.6667%] mb-[40px]">
             <div className="flex items-center gap-5 mb-3    ">
               <div className="">
                 <img
@@ -526,7 +528,7 @@ const RatingLayout = ({ maPhong }) => {
             </div>
             <div className="underline font-medium">Hiển thị thêm</div>
           </div>
-          <div className="px-[8px] mr-[8.33333%] w-[41.6667%] mb-[40px]">
+          <div className="px-[8px] mr-[8.33333%] w-full md:w-[41.6667%] mb-[40px]">
             <div className="flex items-center gap-5 mb-3 ">
               <div className="">
                 <img
@@ -644,7 +646,7 @@ const RatingLayout = ({ maPhong }) => {
             </div>
             <div className="underline font-medium">Hiển thị thêm</div>
           </div>
-          <div className="px-[8px] mr-[8.33333%] w-[41.6667%] mb-[40px]">
+          <div className="px-[8px] mr-[8.33333%] w-full md:w-[41.6667%] mb-[40px]">
             <div className="flex items-center gap-5 mb-3    ">
               <div className="">
                 <img
@@ -765,7 +767,7 @@ const RatingLayout = ({ maPhong }) => {
             const commentDate = new Date(item.ngayBinhLuan);
             const timeSinceComment = timeAgo(commentDate);
             return (
-              <div className="px-[8px] mr-[8.33333%] w-[41.6667%] mb-[40px]">
+              <div className="px-[8px] mr-[8.33333%] w-full md:w-[41.6667%] mb-[40px]">
                 <div className="flex items-center gap-5 mb-3    ">
                   <div className="">
                     <img

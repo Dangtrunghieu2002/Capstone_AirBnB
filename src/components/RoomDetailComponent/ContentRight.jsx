@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import DateRangPicker from "../DateRangePicker/DateRangPicker";
 import { calculateDaysBetween, formatDateString } from "../../utils/utils";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,21 +12,56 @@ import {
   setEndDateR,
   setStartDateR,
 } from "../../redux/SliceUser/InforBookingSlice";
+import { datPhongService } from "../../service/datPhong.service";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { info } from "sass";
+import { NotificationContext } from "../../App";
+import { path } from "../../common/path/path";
 const ContentRight = ({ room }) => {
+  const { showNotification } = useContext(NotificationContext);
   const { startDate, endDate, guest, childGuest, babyGuest } = useSelector(
     (state) => state.InforBookingSlice
   );
+  const { inforUser } = useSelector((state) => state.authSlice);
   const dispatch = useDispatch();
   const night = calculateDaysBetween(startDate, endDate);
   const containerRef = useRef();
   const [isFocus, setIsFocused] = useState(null);
   const [isSelectRange, setIsSelectRange] = useState(false);
   const [isSelect, setIsSelect] = useState(true);
+  const [searchParam] = useSearchParams();
+  const navigate = useNavigate();
+  const inforBooking = {
+    id: 0,
+    maPhong: searchParam.get("maPhong"),
+    ngayDen: startDate,
+    ngayDi: endDate,
+    soLuongKhach: guest + babyGuest + childGuest,
+    maNguoiDung: inforUser?.user.id,
+  };
   const handleClickPickDay = () => {
     setIsFocused(1);
   };
   const handleClickPickGuest = () => {
     setIsFocused(2);
+  };
+  const handleBooking = () => {
+    if (inforUser) {
+      datPhongService
+        .datPhong(inforBooking)
+        .then((res) => {
+          showNotification("Đặt phòng thành công", "success", 1000);
+          console.log(res);
+        })
+        .catch((err) => {
+          showNotification(
+            "Đặt phòng Thất bại! Vui lòng thử lại",
+            "error",
+            1000
+          );
+          console.log(err);
+        });
+    } else navigate(path.signIn);
   };
   useEffect(() => {
     const handleClickOutSide = (event) => {
@@ -114,9 +149,7 @@ const ContentRight = ({ room }) => {
                       </div>
                     </div>
                   </div>
-                  <DateRangPicker
-                    setIsSelectRange={setIsSelectRange}
-                  />
+                  <DateRangPicker setIsSelectRange={setIsSelectRange} />
                 </div>
               )}
             </div>
@@ -361,7 +394,10 @@ const ContentRight = ({ room }) => {
             </div>
           </div>
           <div className="w-full">
-            <button className="w-full px-[24px] py-[14px] bg-[#E51E54] rounded-lg text-center text-white font-medium">
+            <button
+              onClick={() => handleBooking()}
+              className="w-full px-[24px] py-[14px] bg-[#E51E54] rounded-lg text-center text-white font-medium"
+            >
               Đặt Phòng
             </button>
           </div>

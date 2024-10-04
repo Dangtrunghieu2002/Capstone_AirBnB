@@ -7,6 +7,8 @@ import { Skeleton } from "antd";
 import SkeletonIndexPage from "../components/Skeleton/SkeletionIndexPage/SkeletonIndexPage";
 import SkeletonLeftListRoom from "../components/Skeleton/SkeletonListRoomPage/SkeletonLeftListRoom";
 import SkeletonDetailPage from "../components/Skeleton/SkeletonDetailPage/SkeletonDetailPage";
+import InforUserPage from "../pages/InforUserPage/InforUserPage";
+import PageNotFound from "../pages/PageNotFound/PageNotFound";
 
 // Hàm helper để trì hoãn import
 const lazyWithDelay = (importFunc, delay) => {
@@ -97,6 +99,10 @@ const useRoutesCustome = () => {
             </Suspense>
           ),
         },
+        {
+          path: path.inforUser,
+          element: <InforUserPage />,
+        },
       ],
     },
     {
@@ -126,6 +132,10 @@ const useRoutesCustome = () => {
           <SignUpPage />
         </Suspense>
       ),
+    },
+    {
+      path: "*",
+      element: <PageNotFound />,
     },
   ]);
 

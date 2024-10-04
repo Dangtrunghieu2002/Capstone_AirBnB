@@ -44,11 +44,6 @@
   animation-fill-mode: forwards; /* Đảm bảo giữ lại trạng thái cuối cùng */
   display: inline-block; /* Để hoạt động hiệu quả với animation */
 }
-.skeleton-card {
-  opacity: 1; /* Khởi tạo opacity là 0 */
-  animation: fadeOut forwards; /* Chạy animation *//* Đảm bảo giữ lại trạng thái cuối cùng */
-  display: inline-block; /* Để hoạt động hiệu quả với animation */
-}
 
 .checkbox-wrapper-30 .checkbox {
   --bg: #fff;
@@ -118,6 +113,46 @@
   width: 100%;
 }
 
+.bgImg-arrow-right {
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0),
+  );
+}
+.rdrDefinedRangesWrapper {
+  display: none !important;
+}
+.rdrDateDisplayWrapper {
+  display: none;
+}
+.skeleton-box {
+  position: relative;
+  overflow: hidden;
+  background-color: #dddbdd;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+      90deg,
+      rgba(#fff, 0) 0,
+      rgba(#fff, 0.2) 20%,
+      rgba(#fff, 0.5) 60%,
+      rgba(#fff, 0)
+    );
+    animation: shimmer 1s infinite;
+    content: "";
+  }
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+}
 @keyframes fadeOut {
   0% {
     opacity: 1;
