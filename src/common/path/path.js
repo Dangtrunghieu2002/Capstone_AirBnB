@@ -1,5 +1,10 @@
 export const path = {
-    home: '/',
+    homePage: '/',
+    pageNotFound: "*",
+    listRoomPage: "/list-room",
+    roomDetail: "/room-detail",
+    signIn: "/sign-in",
+    signUp:"/sign-up",
     admin: '/admin',
     userManagement: '/admin/user-management',
     locationManage: '/admin/location-management',
