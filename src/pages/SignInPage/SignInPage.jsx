@@ -38,7 +38,7 @@ const SignInPage = () => {
     },
   });
   return (
-    <div className="flex items-center justify-between">
+    <div className="block lg:flex items-center justify-between">
       <div className="flex min-h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm text-center">
           <div className="mb-5 flex justify-center flex-col items-center gap-5">
@@ -218,7 +218,7 @@ const SignInPage = () => {
           </div>
         </div>
       </div>
-      <div className="w-[65%] h-screen">
+      <div className="hidden lg:block w-[65%] h-screen">
         <img
           src="./src/assets/img/wp10784410-airbnb-wallpapers.jpg"
           className="h-full w-full object-cover"
