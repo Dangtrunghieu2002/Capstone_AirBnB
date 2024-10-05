@@ -2,7 +2,7 @@ import React from "react";
 import { Skeleton } from "antd";
 const SkeletonIndexPage = () => {
   return (
-    <div className="h-screen mt-4 px-10 xl:px-20">
+    <div className="h-screen mt-4 px-10 xl:px-20 md:mt-[250px] lg:mt-[184px]">
       <div className="cursor-pointer flex-shrink-0 flex gap-10 items-center justify-center py-3 overflow-hidden">
         {Array.from({ length: 33 }).map((_, index) => (
           <div

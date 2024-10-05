@@ -2,7 +2,7 @@ import { Skeleton } from "antd";
 import React from "react";
 const SkeletonLeftListRoom = () => {
   return (
-    <div className="flex pl-10 pr-2 xl:pl-20 justify-between">
+    <div className="flex pl-10 pr-2 xl:pl-20 justify-between mt-20">
       <div className=" xl:w-[62%] w-full">
         <div>
           <div class="py-6 animate-pulse">
