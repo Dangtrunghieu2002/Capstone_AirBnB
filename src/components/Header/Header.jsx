@@ -79,7 +79,7 @@ const Header = (props) => {
           setIsScrollingDown(false);
         }
       }
-    }, 100), // Thay đổi delay nếu cần
+    }, 150), // Thay đổi delay nếu cần
     [scrollOverride, isScrollingDown]
   ); // Adjust the throttle delay as needed
   const handleResize = () => {
@@ -356,23 +356,23 @@ const Header = (props) => {
     config: {
       tension: 200,
       friction: 20,
-      duration: windowWidth < 1024 ? 300 : 200,
+      duration: 200,
     }, // Điều chỉnh tension và friction để làm cho hoạt ảnh mượt mà hơn
   });
   const springProps1 = useSpring({
     opacity: isScrollingDown ? 0 : 1,
-    transform: isScrollingDown
+    transform: isScrollingDown 
       ? "scale(0.4990243902439024,0.875) translateY(-75px) translateX(-30px)"
       : "scale(1,1) translateY(0px) translateX(0px)",
     visibility: isScrollingDown ? "hidden" : "visible",
-    config: { duration: windowWidth < 1024 ? 300 : 200 },
+    config: { duration: 200 },
   });
   const springProps2 = useSpring({
     transform: isScrollingDown
       ? "scale(1,1) translateY(0px) translateX(0px)"
       : "scale(2.4390243902439024,1.375) translateY(58px) translateX(-40px)",
     visibility: isScrollingDown ? "visible" : "hidden",
-    config: { duration: windowWidth < 1024 ? 300 : 200 },
+    config: { duration: 200 },
   });
   const springProps3 = useSpring({
     opacity: responsiveActive ? 1 : 0,
@@ -1343,7 +1343,9 @@ const Header = (props) => {
       <animated.div
         ref={containerRef}
         className={`hidden md:block ${
-          searchParam.get("maPhong") && !isActiveNavRoom ? "relative" : "sticky"
+          searchParam.get("maPhong") && !isActiveNavRoom
+            ? "relative"
+            : "fixed w-full"
         } top-0 right-0 bottom-0 z-[100] box-shadow-header2 bg-white`}
         style={{ ...springProps }}
       >
@@ -1574,11 +1576,11 @@ const Header = (props) => {
                   </div>
                 )}
                 {isFocusSignIn && showNavAvatar()}
-                { count > 0 &&
+                {count > 0 && (
                   <div className="absolute w-[17px] h-[17px] rounded-full bg-[#E00B41] box-shadow-noti top-[0px] border border-white right-[7px] text-white text-[9px] leading-4 text-center">
                     {count}
                   </div>
-                }
+                )}
               </div>
             </div>
           </div>

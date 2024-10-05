@@ -337,13 +337,13 @@ const IndexPage = () => {
         <section
           className={`sticky ${
             shadowNav ? "shadow-md" : ""
-          } mt-4 px-10 xl:px-20 top-[80px] bg-white z-20`}
+          }  md:mt-[250px] lg:mt-[184px] px-10 xl:px-20 top-[80px] bg-white z-20`}
         >
           {!isAtStart && (
-            <div className="w-[40px] bgImg-arrow-right absolute left-[25px] lg:left-[65px] z-10 top-1/2 transform -translate-y-1/2">
+            <div className="w-[70px] h-[70px] bgImg-arrow-right absolute left-[25px] xl:left-[70px] z-10 top-[35px] transform -translate-y-1/2">
               <button
                 onClick={scrollLeft}
-                className=" bg-[#FFFFFF] border_nav p-[9px] rounded-full"
+                className=" bg-[#FFFFFF] border_nav p-[9px] rounded-full absolute top-[22px] left-[10px]"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -389,26 +389,28 @@ const IndexPage = () => {
             </div>
           </div>
           {!isAtEnd && (
-            <button
-              onClick={scrollRight}
-              className="absolute right-[10px] lg:right-[65px] top-1/2 transform -translate-y-1/2 bg-[#FFFFFF] p-[9px] border_nav rounded-full"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                aria-hidden="true"
-                role="presentation"
-                focusable="false"
-                style={{
-                  display: "block",
-                  height: 12,
-                  width: 12,
-                  fill: "currentcolor",
-                }}
+            <div className="w-[70px] h-[70px] bgImg-arrow-left absolute right-[40px] xl:right-[85px] z-10 top-[35px] transform -translate-y-1/2">
+              <button
+                onClick={scrollRight}
+                className=" absolute right-[-5px] top-1/2 transform -translate-y-1/2 bg-[#FFFFFF] p-[9px] border_nav rounded-full"
               >
-                <path d="M5.41.3 4 1.7 10.3 8 4 14.3l1.41 1.4 6.6-6.58c.57-.58.6-1.5.1-2.13l-.1-.11z" />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  aria-hidden="true"
+                  role="presentation"
+                  focusable="false"
+                  style={{
+                    display: "block",
+                    height: 12,
+                    width: 12,
+                    fill: "currentcolor",
+                  }}
+                >
+                  <path d="M5.41.3 4 1.7 10.3 8 4 14.3l1.41 1.4 6.6-6.58c.57-.58.6-1.5.1-2.13l-.1-.11z" />
+                </svg>
+              </button>
+            </div>
           )}
         </section>
         <div className="mt-4 px-10 xl:px-20">

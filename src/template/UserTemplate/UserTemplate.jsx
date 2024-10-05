@@ -8,7 +8,7 @@ const UserTemplate = () => {
     <>
       <div className="max-w-[2500px] mx-auto">
         <Header />
-        <main>
+        <main className="">
           <Outlet />
         </main>
         <Footer />

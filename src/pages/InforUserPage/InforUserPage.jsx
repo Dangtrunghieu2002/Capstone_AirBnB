@@ -37,13 +37,13 @@ const InforUserPage = () => {
   }, []);
   return (
     <div
-      className="py-[40px] lg:px-[80px] px-[40px] mt-20 md:mt-0"
+      className="py-[40px] lg:px-[80px] px-[40px]  md:mt-0"
       style={{
         marginLeft: mx,
         marginRight: mx,
       }}
     >
-      <div className=" flex lg:items-start items-center lg:flex-row flex-col gap-[40px] xl:gap-[80px]">
+      <div className=" flex lg:items-start mt-[89px] items-center lg:flex-row flex-col gap-[40px] xl:gap-[80px]">
         <div className="h-full relative flex-shrink w-[342px] ">
           <ContentLeft user={user} />
         </div>

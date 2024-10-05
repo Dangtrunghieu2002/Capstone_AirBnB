@@ -27,7 +27,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
 }
 .box-shadow-noti {
-  box-shadow: 0 0 0 1.5px #FFFFFF;
+  box-shadow: 0 0 0 1.5px #ffffff;
 }
 .sign_in {
   &:hover {
@@ -118,8 +118,16 @@
 
 .bgImg-arrow-right {
   background-image: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 0),
+    white 40px
+  );
+}
+.bgImg-arrow-left {
+  background-image: linear-gradient(
     to right,
     rgba(255, 255, 255, 0),
+    white 40px
   );
 }
 .rdrDefinedRangesWrapper {
@@ -202,13 +210,37 @@
   }
 }
 @keyframes opacityAnimation2 {
-  from {
-    opacity: 0.01;
+  0%{
+    opacity: 0;
+    scale: 0.4990243902439024,0.875;
+    transform: translateX(-30px);
+    transform: translateY(-75px);
   }
-
-  to {
-    opacity: 1;
+  25%{
+    opacity: 0;
+    scale: 0.4990243902439024,0.875;
+    transform: translateX(-30px);
+    transform: translateY(-75px);
   }
+  50%{
+    opacity: 0;
+    scale: 0.4990243902439024,0.875;
+    transform: translateX(-30px);
+    transform: translateY(-75px);
+  }
+  75%{
+    opacity: 0;
+    scale: 0.4990243902439024,0.875;
+    transform: translateX(-30px);
+    transform: translateY(-75px);
+  }
+  100%{
+    opacity: 0;
+    scale: 0.4990243902439024,0.875;
+    transform: translateX(-30px);
+    transform: translateY(-75px);
+  }
+  
 }
 .border_nav {
   border: 0.5px solid rgb(0 0 0 / 0.3);
