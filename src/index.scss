@@ -26,6 +26,9 @@
 .box-shadow-signin {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
 }
+.box-shadow-noti {
+  box-shadow: 0 0 0 1.5px #FFFFFF;
+}
 .sign_in {
   &:hover {
     transition: 200ms ease-in-out;

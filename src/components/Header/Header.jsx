@@ -28,6 +28,7 @@ const Header = (props) => {
   const { guest, childGuest, babyGuest, startDate, endDate } = useSelector(
     (state) => state.InforBookingSlice
   );
+  const { count } = useSelector((state) => state.phongDaDatSlice);
   const { inforUser } = useSelector((state) => state.authSlice);
   const [isActive, setIsActive] = useState(true);
   const [isFocused, setIsFocused] = useState(null);
@@ -1050,13 +1051,18 @@ const Header = (props) => {
         <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
           Giới thiệu chủ nhà
         </h3>
-        <Link
-          target="blank"
-          to={`${path.inforUser}?id=${inforUser.user.id}`}
-          className="px-4 py-3 hover:bg-gray-100 text-[14px] block"
-        >
-          Tài khoản
-        </Link>
+        <div className="relative">
+          <Link
+            target="blank"
+            to={`${path.inforUser}?id=${inforUser.user.id}`}
+            className="px-4 py-3 hover:bg-gray-100 text-[14px] block"
+          >
+            Tài khoản
+          </Link>
+          {count > 0 && (
+            <span class="absolute top-[10px] left-[78px] block w-[6px] h-[6px] bg-red-500 rounded-full"></span>
+          )}
+        </div>
         <hr className="my-[7px]" />
         <h3 className="px-4 py-3 hover:bg-gray-100 text-[14px]">
           Trung tâm trợ giúp
@@ -1568,6 +1574,11 @@ const Header = (props) => {
                   </div>
                 )}
                 {isFocusSignIn && showNavAvatar()}
+                { count > 0 &&
+                  <div className="absolute w-[17px] h-[17px] rounded-full bg-[#E00B41] box-shadow-noti top-[0px] border border-white right-[7px] text-white text-[9px] leading-4 text-center">
+                    {count}
+                  </div>
+                }
               </div>
             </div>
           </div>

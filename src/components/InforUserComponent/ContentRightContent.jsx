@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { phongService } from "../../service/phong.service";
 import { Link, useSearchParams } from "react-router-dom";
 import { formatDateString } from "../../utils/utils";
-import { getRoomBooking } from "../../redux/SliceUser/phongDaDatSlice";
+import {
+  getRoomBooking,
+  removeRoom,
+} from "../../redux/SliceUser/phongDaDatSlice";
 import { NotificationContext } from "../../App";
 const ContentRightContent = ({ user }) => {
   const { roomBooking } = useSelector((state) => state.phongDaDatSlice);
@@ -259,11 +262,9 @@ const ContentRightContent = ({ user }) => {
       .xoaPhongDaDat(id)
       .then((res) => {
         showNotification("Xóa thành công", "success", 1000);
-        const updateRoom = room.filter(
-          (item) => item.maDatPhong !== id
-        );
-        console.log("room", updateRoom);
+        const updateRoom = room.filter((item) => item.maDatPhong !== id);
         setRoom(updateRoom);
+        dispatch(removeRoom(updateRoom));
       })
       .catch((err) => console.log(err));
   };

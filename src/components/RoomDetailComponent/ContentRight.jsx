@@ -17,6 +17,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { info } from "sass";
 import { NotificationContext } from "../../App";
 import { path } from "../../common/path/path";
+import { addRoom } from "../../redux/SliceUser/phongDaDatSlice";
 const ContentRight = ({ room }) => {
   const { showNotification } = useContext(NotificationContext);
   const { startDate, endDate, guest, childGuest, babyGuest } = useSelector(
@@ -50,8 +51,8 @@ const ContentRight = ({ room }) => {
       datPhongService
         .datPhong(inforBooking)
         .then((res) => {
+          dispatch(addRoom(res.data.content));
           showNotification("Đặt phòng thành công", "success", 1000);
-          console.log(res);
         })
         .catch((err) => {
           showNotification(
