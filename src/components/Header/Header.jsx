@@ -361,8 +361,8 @@ const Header = (props) => {
   });
   const springProps1 = useSpring({
     opacity: isScrollingDown ? 0 : 1,
-    transform: isScrollingDown 
-      ? "scale(0.4990243902439024,0.875) translateY(-75px) translateX(-30px)"
+    transform: isScrollingDown
+      ? windowWidth < 1024 ? "scale(0.3990243902439024,0.875) translateY(-145px) translateX(-200px)" : "scale(0.4990243902439024,0.875) translateY(-75px) translateX(-30px)"
       : "scale(1,1) translateY(0px) translateX(0px)",
     visibility: isScrollingDown ? "hidden" : "visible",
     config: { duration: 200 },
@@ -370,6 +370,8 @@ const Header = (props) => {
   const springProps2 = useSpring({
     transform: isScrollingDown
       ? "scale(1,1) translateY(0px) translateX(0px)"
+      : windowWidth < 1024
+      ? "scale(2.5, 1.375) translate(80px, 102px)"
       : "scale(2.4390243902439024,1.375) translateY(58px) translateX(-40px)",
     visibility: isScrollingDown ? "visible" : "hidden",
     config: { duration: 200 },
@@ -1644,7 +1646,7 @@ const Header = (props) => {
           </div>
         </header>
       </animated.div>
-      <div className="md:hidden fixed top-0 z-[10] w-[91%] bg-white h-[80px] mx-7 py-5">
+      <div className="md:hidden fixed px-7  w-[100%] mx-0 z-[10] bg-white h-[80px]  py-5">
         <div
           onClick={() => setResponsiveActive(true)}
           className="py-2 px-5 rounded-full box-shadow-header"

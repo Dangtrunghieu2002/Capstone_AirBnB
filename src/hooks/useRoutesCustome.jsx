@@ -10,6 +10,8 @@ import SkeletonDetailPage from "../components/Skeleton/SkeletonDetailPage/Skelet
 import InforUserPage from "../pages/InforUserPage/InforUserPage";
 import PageNotFound from "../pages/PageNotFound/PageNotFound";
 import { getLocalStorage } from "../utils/utils";
+import SkeletonSignIn from "../components/Skeleton/SkeletonSignIn/SkeletonSignIn";
+import SkeletonSignUp from "../components/Skeleton/SkeletonSignUp/SkeletonSignUp";
 
 // Hàm helper để trì hoãn import
 const lazyWithDelay = (importFunc, delay) => {
@@ -116,7 +118,7 @@ const useRoutesCustome = () => {
         <Suspense
           fallback={
             <div className="h-screen">
-              <Skeleton active />
+              <SkeletonSignIn />
             </div>
           }
         >
@@ -130,7 +132,7 @@ const useRoutesCustome = () => {
         <Suspense
           fallback={
             <div className="h-screen">
-              <Skeleton active />
+              <SkeletonSignUp />
             </div>
           }
         >

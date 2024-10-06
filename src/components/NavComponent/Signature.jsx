@@ -120,7 +120,7 @@ const Signature = () => {
     const loadCards = async () => {
       for (let i = 0; i < data.length; i++) {
         setLoadedCards((prev) => [...prev, i]); // Thêm card vào danh sách đã tải
-        await new Promise((resolve) => setTimeout(resolve, 90)); // Đợi 0.2 giây
+        await new Promise((resolve) => setTimeout(resolve, 70)); // Đợi 0.2 giây
       }
     };
 
