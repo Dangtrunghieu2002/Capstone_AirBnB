@@ -336,7 +336,7 @@ const IndexPage = () => {
         </section> */}
         <section
           className={`sticky ${
-            shadowNav ? "shadow-md" : ""
+            shadowNav ? "shadow-md h-[80px]" : ""
           }  md:mt-[250px] lg:mt-[184px] px-10 xl:px-20 top-[80px] bg-white z-20`}
         >
           {!isAtStart && (
@@ -363,10 +363,10 @@ const IndexPage = () => {
               </button>
             </div>
           )}
-          <div className="">
+          <div className="h-full">
             <div
               ref={containerRef}
-              className="flex bg-[#ffffff] items-center gap-5 lg:gap-10 overflow-hidden w-[99%]"
+              className="flex h-full bg-[#ffffff] items-end gap-5 lg:gap-10 overflow-hidden w-[99%]"
             >
               {data.map((item, index) => (
                 <div

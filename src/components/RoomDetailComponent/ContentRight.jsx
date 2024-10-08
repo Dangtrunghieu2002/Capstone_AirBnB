@@ -163,7 +163,11 @@ const ContentRight = ({ room }) => {
                   Khách
                 </div>
                 <div className="min-h-[56px] w-[100%] border-none outline-none px-[12px] pt-[26px] pb-[10px] bg-transparent text-[0.875rem] leading-[1.125rem] overflow-hidden text-ellipsis whitespace-nowrap">
-                  Thêm khách
+                  {guest == 0
+                    ? "Thêm khách"
+                    : `${guest + childGuest} khách${
+                        babyGuest == 0 ? "" : `,${babyGuest} e...`
+                      }`}
                 </div>
                 {isFocus === 2 && (
                   <div className="absolute  mt-2 min-w-[280px] w-full p-[16px] bg-white border border-gray-200 rounded-xl shadow-lg">
