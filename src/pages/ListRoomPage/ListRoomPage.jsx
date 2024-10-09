@@ -12,14 +12,16 @@ const ListRoomPage = () => {
     {
       name: "Hồ Chí Minh",
       coords: "10.7769,106.6959",
+
       iframe: (
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3912.114664847218!2d106.6959!3d10.7769!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752c5ae3aa4535%3A0x986a74a8cb7728a5!2sTh%C3%A0nh%20ph%E1%BB%9F%20H%E1%BB%93%20Ch%C3%AD%20Minh!5e0!3m2!1sen!2s!4v1630460123456!5m2!1sen!2s"
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7838.8611083525375!2d106.69181760317991!3d10.778298732113159!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f38f9ed887b%3A0x14aded5703768989!2zUXXhuq1uIDEsIEjhu5MgQ2jDrSBNaW5o!5e0!3m2!1svi!2s!4v1728459306488!5m2!1svi!2s"
           style={{ border: 0 }}
-          allowFullScreen=""
+          allowFullScreen
           loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
           className=" h-full xl:w-[450px] 2xl:w-[660px]"
-        ></iframe>
+        />
       ),
     },
     {
@@ -27,12 +29,13 @@ const ListRoomPage = () => {
       coords: "12.2388,109.1967",
       iframe: (
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.341877277334!2d109.1967!3d12.2388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3171a0a4536d067b%3A0xd7655d4eb3f3aa3a!2sNha%20Trang!5e0!3m2!1sen!2s!4v1630460123456!5m2!1sen!2s"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.2854746056064!2d109.19022103218246!3d12.2397073736694!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3170677ae037716b%3A0x34f80a4db849a372!2sM%C6%B0%E1%BB%9Dng%20Thanh%20Luxury%20Nha%20Trang!5e0!3m2!1svi!2s!4v1728459469431!5m2!1svi!2s"
           style={{ border: 0 }}
-          allowFullScreen=""
+          allowFullScreen
           loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
           className=" h-full xl:w-[450px] 2xl:w-[660px]"
-        ></iframe>
+        />
       ),
     },
     {
@@ -105,12 +108,13 @@ const ListRoomPage = () => {
       coords: "10.9154,108.1045",
       iframe: (
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3910.7247756595407!2d108.1045!3d10.9154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31740f36f9a7f45b%3A0xd5cc70e7001f0082!2sPhan%20Thi%E1%BA%BFt!5e0!3m2!1sen!2s!4v1630460123456!5m2!1sen!2s"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4658.659364675673!2d108.11206157261985!3d10.929343534551212!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3176830a69343949%3A0x16e9303aed89eda5!2sTTC%20Hotel%20-%20Phan%20Thi%E1%BA%BFt!5e0!3m2!1svi!2s!4v1728459577113!5m2!1svi!2s"
           style={{ border: 0 }}
-          allowFullScreen=""
+          allowFullScreen
           loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
           className=" h-full xl:w-[450px] 2xl:w-[660px]"
-        ></iframe>
+        />
       ),
     },
     {

@@ -377,7 +377,7 @@ const IndexPage = () => {
                   className={`cursor-pointer flex-shrink-0 flex flex-col gap-[7px] items-center justify-center border-b-2 ${
                     isActive == index
                       ? "border-black"
-                      : "border-white hover:border-gray-200 opacity-70 hover:opacity-100 "
+                      : "border-white hover:border-gray-200 opacity-70 hover:opacity-100 active:scale-90 transition transform duration-300 ease-out" 
                   } py-3`}
                 >
                   <div className="max-h-[48px]">

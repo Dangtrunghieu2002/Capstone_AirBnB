@@ -10,7 +10,7 @@ const RatingLayout = ({ maPhong }) => {
   const [binhLuan, setBinhLuan] = useState([]);
   const [searchParam] = useSearchParams();
   const { inforUser } = useSelector((state) => state.authSlice);
-  const { handleChange, handleSubmit, values } = useFormik({
+  const { handleChange, handleSubmit, values, resetForm } = useFormik({
     initialValues: {
       maPhong: searchParam.get("maPhong"),
       maNguoiBinhLuan: inforUser?.user.id ? inforUser.user.id : 0,
@@ -19,7 +19,12 @@ const RatingLayout = ({ maPhong }) => {
       saoBinhLuan: 5,
     },
     onSubmit: (values) => {
-      setBinhLuan((preV) => [...preV, values]);
+      const fullValues = {
+        ...values,
+        tenNguoiBinhLuan: inforUser?.user.name,
+        avatar: inforUser?.user.avatar,
+      };
+      setBinhLuan((preV) => [...preV, fullValues]);
       binhLuanService
         .binhLuan(values, inforUser.token)
         .then((res) => {
@@ -29,6 +34,7 @@ const RatingLayout = ({ maPhong }) => {
           console.log(err);
         });
       console.log(values);
+      resetForm();
     },
   });
   const timeAgo = (date) => {
@@ -776,7 +782,7 @@ const RatingLayout = ({ maPhong }) => {
                           ? item.avatar
                           : "https://avatars.githubusercontent.com/u/49735763?v=4"
                       }
-                      className="rounded-full h-[48px] w-[48px] object-cover"
+                      className="rounded-full h-[48px] w-[48px] object-cover border"
                       alt=""
                     />
                   </div>
