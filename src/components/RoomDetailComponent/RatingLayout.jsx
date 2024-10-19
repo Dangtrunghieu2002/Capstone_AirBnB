@@ -28,12 +28,10 @@ const RatingLayout = ({ maPhong }) => {
       binhLuanService
         .binhLuan(values, inforUser.token)
         .then((res) => {
-          console.log(res);
         })
         .catch((err) => {
           console.log(err);
         });
-      console.log(values);
       resetForm();
     },
   });

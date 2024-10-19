@@ -57,7 +57,6 @@ const Header = (props) => {
   const containerRef = useRef(null);
   const signInRef = useRef(null);
   const navigate = useNavigate();
-  console.log(mx);
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
@@ -1119,7 +1118,8 @@ const Header = (props) => {
         // Lấy tất cả các ID vào một mảng
         const newListIdViTri = newListViTri.map((item) => item.id);
         setListIdViTri(newListIdViTri);
-        // console.log(res);
+
+
       })
       .catch((err) => console.log(err));
   }, [debouncedValue]);

@@ -6,7 +6,6 @@ const MapboxComponent = ({ locations }) => {
   const [positions, setPositions] = useState([]);
   const { location } = useSelector((state) => state.viTriSlice);
   const mapLocation = locations.find((item) => item.name == location.tinhThanh);
-  console.log(mapLocation);
   useEffect(() => {
     // Tạo số tiền ngẫu nhiên
     const generatedAmounts = [];

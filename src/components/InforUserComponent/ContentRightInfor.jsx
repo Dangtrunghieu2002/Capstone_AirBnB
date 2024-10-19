@@ -31,7 +31,6 @@ const ContentRightInfor = ({ setInfor }) => {
       nguoiDungService
         .uploadAvatar(dataForm, token)
         .then((res) => {
-          console.log(res);
         })
         .catch((err) => {
           console.log(err);
