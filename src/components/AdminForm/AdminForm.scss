@@ -1,27 +1,39 @@
-.form-group {
+.scroll-container {
+    position: relative;
+    max-width: 100%; /* Giới hạn chiều rộng */
+    overflow-x: auto; /* Cho phép cuộn ngang */
+    white-space: nowrap; /* Giữ nội dung không xuống dòng */
+    padding-top: 20px; /* Đẩy nội dung xuống để thanh cuộn không che nội dung */
+    position: sticky; /* Thanh cuộn sẽ luôn hiển thị cố định */
+    top: 0; /* Thanh cuộn nằm ngay phía trên */
+  }
+  
+  .form-group {
     margin-bottom: 20px;
-}
-
-label {
+    display: inline-block; /* Đảm bảo các phần tử nằm ngang */
+    width: 200px; /* Giới hạn chiều rộng cho các trường */
+  }
+  
+  label {
     display: block;
     font-size: 14px;
     font-weight: bold;
     margin-bottom: 5px;
-}
-
-input, textarea {
+  }
+  
+  input, textarea {
     width: 100%;
     padding: 8px;
     border-radius: 4px;
     border: 1px solid #ccc;
     font-size: 14px;
-}
-
-textarea {
+  }
+  
+  textarea {
     min-height: 100px;
-}
-
-.btn-submit {
+  }
+  
+  .btn-submit {
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -29,4 +41,5 @@ textarea {
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
-}
+  }
+  

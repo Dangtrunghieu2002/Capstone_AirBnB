@@ -13,10 +13,9 @@ import PageNotFound from "../pages/PageNotFound/PageNotFound";
 import { getLocalStorage } from "../utils/utils";
 import SkeletonSignIn from "../components/Skeleton/SkeletonSignIn/SkeletonSignIn";
 import SkeletonSignUp from "../components/Skeleton/SkeletonSignUp/SkeletonSignUp";
-import UserManagePage from "../pages/UserManagePage/UserManagePage";
-import LocationManagementPage from "../pages/LocationManagePage/LocationManagePage";
-import RoomInfoManagePage from "../pages/RoomInfoManagePage/RoomInfoManagePage";
-import BookingManagementPage from "../pages/BookingManagePage/BookingManagePage";
+// import LocationManagementPage from "../pages/LocationManagePage/LocationManagePage";
+// import RoomInfoManagePage from "../pages/RoomInfoManagePage/RoomInfoManagePage";
+// import BookingManagementPage from "../pages/BookingManagePage/BookingManagePage";
 
 // Hàm helper để trì hoãn import
 const lazyWithDelay = (importFunc, delay) => {
@@ -52,9 +51,9 @@ const SignUpPage = lazyWithDelay(
 );
 
 // Admin Pages
-const JobManagePage = lazyWithDelay(() => import("../pages/JobManagePage/JobManagePage"), 500);
-const JobTypeManagePage = lazyWithDelay(() => import("../pages/JobTypeManagePage/JobTypeManagePage"), 500);
-const ServiceManagePage = lazyWithDelay(() => import("../pages/ServiceManagePage/ServiceManagePage"), 500);
+const BookingManagementPage = lazyWithDelay(() => import("../pages/BookingManagePage/BookingManagePage"), 500);
+const RoomInfoManagePage = lazyWithDelay(() => import("../pages/RoomInfoManagePage/RoomInfoManagePage"), 500);
+const LocationManagementPage = lazyWithDelay(() => import("../pages/LocationManagePage/LocationManagePage"), 500);
 const UserManagePage = lazyWithDelay(() => import("../pages/UserManagePage/UserManagePage"), 500);
 
 

@@ -77,73 +77,77 @@ const ManagementTable = ({ columnMapping, fetchData, onEdit, onView }) => {
       {items.length === 0 ? (
         <p>No data available</p> // Show this if items is an empty array
       ) : (
-        <table
-          style={{
-            width: '100%',
-            borderCollapse: 'collapse',
-            marginBottom: '20px'
-          }}
-        >
-          <thead>
-            <tr>
-              {Object.values(columnMapping).map((header, index) => (
-                <th
-                  key={index}
-                  style={{
-                    padding: '10px',
-                    borderBottom: '2px solid #ddd',
-                    textAlign: 'left'
-                  }}
-                >
-                  {header}
-                </th>
-              ))}
-              <th style={{ padding: '10px', borderBottom: '2px solid #ddd', textAlign: 'left' }}>
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((item, index) => (
-              <tr key={index}>
-                {Object.keys(columnMapping).map((col, colIndex) => (
-                  <td key={colIndex} style={{ padding: '10px', borderBottom: '1px solid #ddd' }}>
-                    {item[col]}
-                  </td>
+        // Thêm một div bao quanh bảng với overflow-x: auto để bật cuộn ngang
+        <div style={{ overflowX: 'auto' }}>
+          <table
+            style={{
+              width: '100%',
+              borderCollapse: 'collapse',
+              marginBottom: '20px',
+              minWidth: '1200px' // Đảm bảo bảng có chiều rộng tối thiểu để bật cuộn ngang
+            }}
+          >
+            <thead>
+              <tr>
+                {Object.values(columnMapping).map((header, index) => (
+                  <th
+                    key={index}
+                    style={{
+                      padding: '10px',
+                      borderBottom: '2px solid #ddd',
+                      textAlign: 'left'
+                    }}
+                  >
+                    {header}
+                  </th>
                 ))}
-                <td style={{ padding: '10px', borderBottom: '1px solid #ddd' }}>
-                  <button
-                    onClick={() => onView(item)}
-                    style={{
-                      padding: '5px 10px',
-                      marginRight: '5px',
-                      backgroundColor: '#28a745',
-                      color: '#fff',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    View
-                  </button>
-                  <button
-                    onClick={() => onEdit(item)}
-                    style={{
-                      padding: '5px 10px',
-                      backgroundColor: '#ffc107',
-                      color: '#fff',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    Edit
-                  </button>
-                </td>
+                <th style={{ padding: '10px', borderBottom: '2px solid #ddd', textAlign: 'left' }}>
+                  Actions
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {items.map((item, index) => (
+                <tr key={index}>
+                  {Object.keys(columnMapping).map((col, colIndex) => (
+                    <td key={colIndex} style={{ padding: '10px', borderBottom: '1px solid #ddd' }}>
+                      {item[col]}
+                    </td>
+                  ))}
+                  <td style={{ padding: '10px', borderBottom: '1px solid #ddd' }}>
+                    <button
+                      onClick={() => onView(item)}
+                      style={{
+                        padding: '5px 10px',
+                        marginRight: '5px',
+                        backgroundColor: '#28a745',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      View
+                    </button>
+                    <button
+                      onClick={() => onEdit(item)}
+                      style={{
+                        padding: '5px 10px',
+                        backgroundColor: '#ffc107',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Edit
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
