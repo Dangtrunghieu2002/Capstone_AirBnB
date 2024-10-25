@@ -220,7 +220,7 @@ const SignInPage = () => {
       </div>
       <div className="hidden lg:block w-[65%] h-screen">
         <img
-          src="./src/assets/img/wp10784410-airbnb-wallpapers.jpg"
+          src="./assets/img/wp10784410-airbnb-wallpapers.jpg"
           className="h-full w-full object-cover"
           alt=""
         />

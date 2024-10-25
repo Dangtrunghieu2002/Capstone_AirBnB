@@ -43,7 +43,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="flex relative justify-center items-center h-screen bg-[url('./src/assets/img/wp10784364-airbnb-wallpapers.jpg')] bg-cover bg-top">
+    <div className="flex relative justify-center items-center h-screen bg-[url('./assets/img/wp10784364-airbnb-wallpapers.jpg')] bg-cover bg-top">
       <div className="absolute inset-0 bg-black opacity-50" />
       <div className="z-10 px-7 bg-white w-[576px] py-8 rounded-2xl border flex flex-col items-start">
         <div className="mb-5">
