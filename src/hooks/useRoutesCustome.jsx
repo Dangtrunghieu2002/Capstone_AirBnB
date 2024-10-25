@@ -13,10 +13,10 @@ import PageNotFound from "../pages/PageNotFound/PageNotFound";
 import { getLocalStorage } from "../utils/utils";
 import SkeletonSignIn from "../components/Skeleton/SkeletonSignIn/SkeletonSignIn";
 import SkeletonSignUp from "../components/Skeleton/SkeletonSignUp/SkeletonSignUp";
-import UserManagePage from "../pages/UserManagePage/UserManagePage";
-import LocationManagementPage from "../pages/LocationManagePage/LocationManagePage";
-import RoomInfoManagePage from "../pages/RoomInfoManagePage/RoomInfoManagePage";
-import BookingManagementPage from "../pages/BookingManagePage/BookingManagePage";
+// import UserManagePage from "../pages/UserManagePage/UserManagePage";
+// import LocationManagementPage from "../pages/LocationManagePage/LocationManagePage";
+// import RoomInfoManagePage from "../pages/RoomInfoManagePage/RoomInfoManagePage";
+// import BookingManagementPage from "../pages/BookingManagePage/BookingManagePage";
 
 // Hàm helper để trì hoãn import
 const lazyWithDelay = (importFunc, delay) => {
@@ -52,10 +52,10 @@ const SignUpPage = lazyWithDelay(
 );
 
 // Admin Pages
-const JobManagePage = lazyWithDelay(() => import("../pages/JobManagePage/JobManagePage"), 500);
-const JobTypeManagePage = lazyWithDelay(() => import("../pages/JobTypeManagePage/JobTypeManagePage"), 500);
-const ServiceManagePage = lazyWithDelay(() => import("../pages/ServiceManagePage/ServiceManagePage"), 500);
-const UserManagePage = lazyWithDelay(() => import("../pages/UserManagePage/UserManagePage"), 500);
+// const JobManagePage = lazyWithDelay(() => import("../pages/JobManagePage/JobManagePage"), 500);
+// const JobTypeManagePage = lazyWithDelay(() => import("../pages/JobTypeManagePage/JobTypeManagePage"), 500);
+// const ServiceManagePage = lazyWithDelay(() => import("../pages/ServiceManagePage/ServiceManagePage"), 500);
+// const UserManagePage = lazyWithDelay(() => import("../pages/UserManagePage/UserManagePage"), 500);
 
 
 const useRoutesCustome = () => {
@@ -153,49 +153,49 @@ const useRoutesCustome = () => {
       ),
     },
     // Admin routes
-    {
-      path: "/admin",
-      element: <AdminTemplate />,
-      children: [
-        {
-          index: true, // Default to user management
-          path: "user-management",
-          element: (
-            <Suspense fallback={<div className="h-screen"><SkeletonSignIn /></div>}>
-              <UserManagePage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "booking-management",
-          element: (
-            <Suspense fallback={<div className="h-screen"><SkeletonSignIn /></div>}>
-              <BookingManagementPage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "location-management",
-          element: (
-            <Suspense fallback={<div className="h-screen"><SkeletonSignIn /></div>}>
-              <LocationManagementPage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "room-info-management",
-          element: (
-            <Suspense fallback={<div className="h-screen"><SkeletonSignIn /></div>}>
-              <RoomInfoManagePage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "*",
-          element: <PageNotFound />,
-        },
-      ],
-    },
+    // {
+    //   path: "/admin",
+    //   element: <AdminTemplate />,
+    //   children: [
+    //     {
+    //       index: true, // Default to user management
+    //       path: "user-management",
+    //       element: (
+    //         <Suspense fallback={<div className="h-screen"><SkeletonSignIn /></div>}>
+    //           <UserManagePage />
+    //         </Suspense>
+    //       ),
+    //     },
+    //     {
+    //       path: "booking-management",
+    //       element: (
+    //         <Suspense fallback={<div className="h-screen"><SkeletonSignIn /></div>}>
+    //           <BookingManagementPage />
+    //         </Suspense>
+    //       ),
+    //     },
+    //     {
+    //       path: "location-management",
+    //       element: (
+    //         <Suspense fallback={<div className="h-screen"><SkeletonSignIn /></div>}>
+    //           <LocationManagementPage />
+    //         </Suspense>
+    //       ),
+    //     },
+    //     {
+    //       path: "room-info-management",
+    //       element: (
+    //         <Suspense fallback={<div className="h-screen"><SkeletonSignIn /></div>}>
+    //           <RoomInfoManagePage />
+    //         </Suspense>
+    //       ),
+    //     },
+    //     {
+    //       path: "*",
+    //       element: <PageNotFound />,
+    //     },
+    //   ],
+    // },
     {
       path: "*",
       element: <PageNotFound />,
